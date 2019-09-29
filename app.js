@@ -12,9 +12,8 @@ _client.on('ready', () => {
 
     _client.user.setPresence({
         game: {
-            name: `FEH. Type "-orb help".`,
-            type: 'PLAYING',
-            url: 'https://www.twitch.tv/monstercat'
+            name: _lang.msg.presence,
+            type: 'PLAYING'
         }
     });
 });

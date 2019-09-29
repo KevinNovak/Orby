@@ -28,6 +28,7 @@
         ]
     },
     "msg": {
+        "presence": "FEH. Type \"-orb\".",
         "help": [
             "Hi I'm Orby! Here are the things I help you with.",
             "**-orb help** - Show this help menu.",
