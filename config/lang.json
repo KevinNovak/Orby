@@ -1,0 +1,44 @@
+{
+    "cmd": {
+        "prefix": [
+            "-orb",
+            "~orb",
+            "!orb",
+            "?orb",
+            "-orbs",
+            "~orbs",
+            "!orbs",
+            "?orbs",
+            "-orby",
+            "~orby",
+            "!orby",
+            "?orby"
+        ],
+        "help": [
+            "help",
+            "?"
+        ],
+        "set": [
+            "set"
+        ],
+        "top": [
+            "top",
+            "lb",
+            "leaderboard"
+        ]
+    },
+    "msg": {
+        "help": [
+            "**-orb help** - Show this help menu.",
+            "**-orb set <count>** - Update your orb count.",
+            "**-orb top** - View the top orb hoarders."
+        ],
+        "topTitle": "Top Orb Hoarders",
+        "topFormat": "**{MEMBER_RANK}**. {MEMBER_NAME}",
+        "notAllowedInDm": "This command doesn't work in direct messages. Try again in a server channel.",
+        "noOrbCountProvided": "Please provide an orb count.",
+        "invalidOrbCount": "Please provide a valid orb count.",
+        "cantUpdateOwnerNickname": "The owners nickname cannot be updated.",
+        "noPermissionChangeNickname": "I don't have permission to change your nickname!"
+    }
+}

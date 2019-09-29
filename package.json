@@ -1,0 +1,19 @@
+{
+  "name": "orby",
+  "version": "1.0.0",
+  "description": "Discord bot for OrbHoarders.",
+  "main": "app.js",
+  "scripts": {
+    "start": "pm2 start process.json",
+    "dev": "nodemon app.js"
+  },
+  "author": "Kevin Novak",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "pm2": "^3.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.3"
+  }
+}
