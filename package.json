@@ -15,5 +15,13 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.3"
+  },
+  "homepage": "https://github.com/KevinNovak/Orby#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KevinNovak/Orby.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KevinNovak/Orby/issues"
   }
 }
