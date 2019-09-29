@@ -29,9 +29,10 @@
     },
     "msg": {
         "help": [
+            "Hi I'm Orby! Here are the things I help you with.",
             "**-orb help** - Show this help menu.",
             "**-orb set <count>** - Update your orb count.",
-            "**-orb top** - View the top orb hoarders."
+            "**-orb top** - Show the top orb hoarders."
         ],
         "topTitle": "Top Orb Hoarders",
         "topFormat": "**{MEMBER_RANK}**. {MEMBER_NAME}",
