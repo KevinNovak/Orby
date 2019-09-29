@@ -9,6 +9,14 @@ let _acceptMessages = false;
 
 _client.on('ready', () => {
     _acceptMessages = true;
+
+    _client.user.setPresence({
+        game: {
+            name: `FEH. Type "-orb help".`,
+            type: 'PLAYING',
+            url: 'https://www.twitch.tv/monstercat'
+        }
+    });
 });
 
 function canReply(msg) {
