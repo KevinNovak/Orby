@@ -95,7 +95,7 @@ function processSet(msg, args) {
         msg.member.setNickname(newDisplayname);
     }
 
-    msg.channel.send(`Updated your orb count to ${orbCountString}`);
+    msg.channel.send(_lang.msg.updatedOrbCount.replace('{ORB_COUNT}', orbCountString));
 }
 
 function compareOrbCounts(a, b) {
