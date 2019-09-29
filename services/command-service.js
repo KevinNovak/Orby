@@ -57,13 +57,13 @@ function processSet(msg, args) {
         return;
     }
 
-    let newOrbCountString = args[2];
-    if (isNaN(newOrbCountString)) {
+    let orbCountFromUser = args[2];
+    if (isNaN(orbCountFromUser)) {
         msg.channel.send(_lang.msg.invalidOrbCount);
         return;
     }
 
-    let newOrbCount = parseInt(newOrbCountString);
+    let newOrbCount = parseInt(orbCountFromUser);
     if (newOrbCount < 0 || newOrbCount > _config.maxOrbs) {
         msg.channel.send(_lang.msg.invalidOrbCount);
         return;
@@ -90,7 +90,7 @@ function processSet(msg, args) {
     let orbCountString = newOrbCount.toLocaleString();
     let newDisplayname = displayName;
     if (_regexUtils.containsOrbCount(displayName)) {
-        newDisplayname = _regexUtils.replaceOrbCount(displayName, newOrbCountString);
+        newDisplayname = _regexUtils.replaceOrbCount(displayName, orbCountString);
     } else {
         newDisplayname = `${displayName} (${orbCountString})`
     }
