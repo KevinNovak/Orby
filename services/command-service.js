@@ -64,7 +64,7 @@ function processSet(msg, args) {
     }
 
     let newOrbCount = parseInt(newOrbCountString);
-    if (newOrbCount < 0 || newOrbCount > 1000000) {
+    if (newOrbCount < 0 || newOrbCount > _config.maxOrbs) {
         msg.channel.send(_lang.msg.invalidOrbCount);
         return;
     }
@@ -80,20 +80,27 @@ function processSet(msg, args) {
     }
 
     if (!msg.guild.me.hasPermission('MANAGE_NICKNAMES')) {
-        return message.channel.send(_lang.msg.noPermissionChangeNickname);
+        msg.channel.send(_lang.msg.noPermissionChangeNickname);
+        return;
     };
 
     let member = msg.member;
     let displayName = member.displayName;
 
     let orbCountString = newOrbCount.toLocaleString();
+    let newDisplayname = displayName;
     if (_regexUtils.containsOrbCount(displayName)) {
-        let newDisplayname = _regexUtils.replaceOrbCount(displayName, newOrbCountString);
-        msg.member.setNickname(newDisplayname);
+        newDisplayname = _regexUtils.replaceOrbCount(displayName, newOrbCountString);
     } else {
-        let newDisplayname = `${displayName} (${orbCountString})`
-        msg.member.setNickname(newDisplayname);
+        newDisplayname = `${displayName} (${orbCountString})`
     }
+
+    if (newDisplayname.length > 32) {
+        msg.channel.send(_lang.msg.nicknameTooLong);
+        return;
+    }
+
+    msg.member.setNickname(newDisplayname);
 
     msg.channel.send(_lang.msg.updatedOrbCount.replace('{ORB_COUNT}', orbCountString));
 }

@@ -41,6 +41,7 @@
         "invalidOrbCount": "Please provide a valid orb count.",
         "cantUpdateOwnerNickname": "The owners nickname cannot be updated.",
         "noPermissionChangeNickname": "I don't have permission to change your nickname!",
-        "updatedOrbCount": "Updated your orb count to {ORB_COUNT} orbs!"
+        "updatedOrbCount": "Updated your orb count to {ORB_COUNT} orbs!",
+        "nicknameTooLong": "Your new nickname would be too long. Please shorten your nickname."
     }
 }

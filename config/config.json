@@ -1,4 +1,5 @@
 {
     "token": "<YOUR_DISCORD_BOT_TOKEN>",
-    "topCount": 25
+    "topCount": 25,
+    "maxOrbs": 1000000
 }
