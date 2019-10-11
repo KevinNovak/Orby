@@ -41,6 +41,7 @@ function processTop(msg, args) {
                 displayName,
                 totalOrbs: _regexUtils.extractUnclaimedOrbs(displayName) || 0
             }))
+            .filter(orbData => orbData.totalOrbs > 0)
             .sort(compareOrbCounts)
             .slice(0, _config.topCount);
     } else {
@@ -50,6 +51,7 @@ function processTop(msg, args) {
                 displayName,
                 totalOrbs: _regexUtils.extractTotalOrbs(displayName) || 0
             }))
+            .filter(orbData => orbData.totalOrbs > 0)
             .sort(compareOrbCounts)
             .slice(0, _config.topCount);
     }
