@@ -21,13 +21,12 @@ function processTop(msg) {
         .map(member => member.displayName);
 
     let orbData = displayNames
-        .filter(_regexUtils.containsOrbCount)
+        .filter(_regexUtils.containsOrbs)
         .map(displayName => ({
             displayName,
-            orbCount: _regexUtils.extractOrbCount(displayName)
+            totalOrbs: _regexUtils.extractTotalOrbs(displayName)
         }))
         .sort(compareOrbCounts)
-        .reverse()
         .slice(0, _config.topCount);
 
     let description = ''
@@ -57,16 +56,31 @@ function processSet(msg, args) {
         return;
     }
 
-    let orbCountFromUser = args[2];
-    if (isNaN(orbCountFromUser)) {
+    let claimedOrbsFromUser = args[2];
+    if (isNaN(claimedOrbsFromUser)) {
         msg.channel.send(_lang.msg.invalidOrbCount);
         return;
     }
 
-    let newOrbCount = parseInt(orbCountFromUser);
-    if (newOrbCount < 0 || newOrbCount > _config.maxOrbs) {
+    let newClaimedOrbs = parseInt(claimedOrbsFromUser);
+    if (newClaimedOrbs < 0 || newClaimedOrbs > _config.maxOrbs) {
         msg.channel.send(_lang.msg.invalidOrbCount);
         return;
+    }
+
+    let newUnclaimedOrbs = 0;
+    if (args.length >= 4) {
+        let unclaimedOrbsFromUser = args[3];
+        if (isNaN(unclaimedOrbsFromUser)) {
+            msg.channel.send(_lang.msg.invalidOrbCount);
+            return;
+        }
+
+        newUnclaimedOrbs = parseInt(unclaimedOrbsFromUser);
+        if (newUnclaimedOrbs < 0 || newUnclaimedOrbs > _config.maxOrbs) {
+            msg.channel.send(_lang.msg.invalidOrbCount);
+            return;
+        }
     }
 
     // If message came from a member of the guild
@@ -87,12 +101,27 @@ function processSet(msg, args) {
     let member = msg.member;
     let displayName = member.displayName;
 
-    let orbCountString = newOrbCount.toLocaleString();
+    let claimedOrbsString = newClaimedOrbs.toLocaleString();
+    let unclaimedOrbsString = newUnclaimedOrbs.toLocaleString();
+
     let newDisplayname = displayName;
-    if (_regexUtils.containsOrbCount(displayName)) {
-        newDisplayname = _regexUtils.replaceOrbCount(displayName, orbCountString);
+
+    let currentClaimedOrbs = _regexUtils.extractClaimedOrbs(displayName);
+    if (currentClaimedOrbs) {
+        newDisplayname = _regexUtils.replaceClaimedOrbs(newDisplayname, claimedOrbsString);
     } else {
-        newDisplayname = `${displayName} (${orbCountString})`
+        newDisplayname = `${newDisplayname} (${claimedOrbsString})`
+    }
+
+    if (newUnclaimedOrbs > 0) {
+        let currentUnclaimedOrbs = _regexUtils.extractUnclaimedOrbs(newDisplayname);
+        if (currentUnclaimedOrbs) {
+            newDisplayname = _regexUtils.replaceUnclaimedOrbs(newDisplayname, unclaimedOrbsString);
+        } else {
+            newDisplayname = _regexUtils.addUnclaimedOrbs(newDisplayname, unclaimedOrbsString);
+        }
+    } else {
+        newDisplayname = _regexUtils.removeUnclaimedOrbs(newDisplayname);
     }
 
     if (newDisplayname.length > 32) {
@@ -102,15 +131,26 @@ function processSet(msg, args) {
 
     msg.member.setNickname(newDisplayname);
 
-    msg.channel.send(_lang.msg.updatedOrbCount.replace('{ORB_COUNT}', orbCountString));
+    if (newUnclaimedOrbs > 0) {
+        msg.channel.send(
+            _lang.msg.updatedUnclaimedOrbCount
+                .replace('{CLAIMED_ORBS}', claimedOrbsString)
+                .replace('{UNCLAIMED_ORBS}', unclaimedOrbsString)
+        );
+    } else {
+        msg.channel.send(
+            _lang.msg.updatedClaimedOrbCount
+                .replace('{CLAIMED_ORBS}', claimedOrbsString)
+        );
+    }
 }
 
 function compareOrbCounts(a, b) {
-    if (a.orbCount > b.orbCount) {
-        return 1;
-    }
-    if (a.orbCount < b.orbCount) {
+    if (a.totalOrbs > b.totalOrbs) {
         return -1;
+    }
+    if (a.totalOrbs < b.totalOrbs) {
+        return 1;
     }
     return 0;
 }
