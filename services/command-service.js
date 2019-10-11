@@ -10,24 +10,44 @@ function processHelp(msg) {
     msg.channel.send(_helpMsg);
 }
 
-function processTop(msg) {
+function processTop(msg, args) {
     if (!msg.guild) {
         msg.channel.send(_lang.msg.notAllowedInDm);
         return;
+    }
+
+    let topType = "OVERALL";
+
+    if (args.length >= 3) {
+        if (args[2].toUpperCase() == "INBOX") {
+            topType = "INBOX";
+        }
     }
 
     let displayNames = msg.guild.members
         .filter(member => !member.user.bot)
         .map(member => member.displayName);
 
-    let orbData = displayNames
-        .filter(_regexUtils.containsOrbs)
-        .map(displayName => ({
-            displayName,
-            totalOrbs: _regexUtils.extractTotalOrbs(displayName)
-        }))
-        .sort(compareOrbCounts)
-        .slice(0, _config.topCount);
+    let orbData = [];
+    if (topType == "INBOX") {
+        orbData = displayNames
+            .filter(_regexUtils.containsOrbs)
+            .map(displayName => ({
+                displayName,
+                totalOrbs: _regexUtils.extractUnclaimedOrbs(displayName) || 0
+            }))
+            .sort(compareOrbCounts)
+            .slice(0, _config.topCount);
+    } else {
+        orbData = displayNames
+            .filter(_regexUtils.containsOrbs)
+            .map(displayName => ({
+                displayName,
+                totalOrbs: _regexUtils.extractTotalOrbs(displayName) || 0
+            }))
+            .sort(compareOrbCounts)
+            .slice(0, _config.topCount);
+    }
 
     let description = ''
     for (let [index, data] of orbData.entries()) {
@@ -39,7 +59,7 @@ function processTop(msg) {
 
     const embed = new Discord.RichEmbed()
         .setColor('#0099ff')
-        .setTitle(_lang.msg.topTitle)
+        .setTitle(topType == "INBOX" ? _lang.msg.topHoardersInboxTitle : _lang.msg.topHoardersOverallTitle)
         .setDescription(description)
 
     msg.channel.send(embed);

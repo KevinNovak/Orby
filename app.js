@@ -47,7 +47,7 @@ _client.on('message', msg => {
         }
 
         if (_lang.cmd.top.includes(cmd)) {
-            _commandService.processTop(msg);
+            _commandService.processTop(msg, args);
             return;
         }
     }
