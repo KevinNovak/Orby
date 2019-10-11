@@ -33,6 +33,7 @@
             "Hi I'm Orby! Here are the things I help you with.",
             "**-orb help** - Show this help menu.",
             "**-orb set <count>** - Update your orb count.",
+            "**-orb set <count> <inbox>** - Update your orb counts.",
             "**-orb top** - Show the top orb hoarders."
         ],
         "topTitle": "Top Orb Hoarders",
@@ -42,7 +43,8 @@
         "invalidOrbCount": "Please provide a valid orb count.",
         "cantUpdateOwnerNickname": "The owners nickname cannot be updated.",
         "noPermissionChangeNickname": "I don't have permission to change your nickname!",
-        "updatedOrbCount": "Updated your orb count to {ORB_COUNT} orbs!",
+        "updatedClaimedOrbCount": "Updated your orb count to {CLAIMED_ORBS} orbs!",
+        "updatedUnclaimedOrbCount": "Updated your orb count to {CLAIMED_ORBS} orbs and {UNCLAIMED_ORBS} in your inbox!",
         "nicknameTooLong": "Your new nickname would be too long. Please shorten your nickname."
     }
 }
