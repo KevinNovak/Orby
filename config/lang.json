@@ -29,12 +29,18 @@
     },
     "msg": {
         "presence": "FEH. Type \"-orb\".",
+        "helpTitle": "Orby - Help Menu",
         "help": [
             "Hi I'm Orby! Here are the things I help you with.",
+            "",
             "**-orb help** - Show this help menu.",
-            "**-orb set <count>** - Update your orb count.",
-            "**-orb set <count> <inbox>** - Update your orb counts.",
+            "",
+            "**-orb set <# claimed orbs>** - Show your orb count in your nickname. Claimed orbs only.",
+            "",
+            "**-orb set <# claimed orbs> <# inbox orbs>** - Show your orb counts in your nickname, both your claimed orbs and those in your inbox.",
+            "",
             "**-orb top** - Show the top overall orb hoarders.",
+            "",
             "**-orb top inbox** - Show the top inbox orb hoarders."
         ],
         "topHoardersOverallTitle": "Top Orb Hoarders - Overall",

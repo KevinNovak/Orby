@@ -7,7 +7,12 @@ const Discord = require('discord.js');
 let _helpMsg = _lang.msg.help.join('\n');
 
 function processHelp(msg) {
-    msg.channel.send(_helpMsg);
+    const embed = new Discord.RichEmbed()
+        .setColor('#0099ff')
+        .setTitle(_lang.msg.helpTitle)
+        .setDescription(_helpMsg)
+
+    msg.channel.send(embed);
 }
 
 function processTop(msg, args) {
