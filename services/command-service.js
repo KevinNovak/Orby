@@ -120,7 +120,7 @@ function processSet(msg, args) {
         return;
     };
 
-    if (msg.guild.me.highestRole.position > msg.member.highestRole.position) {
+    if (msg.guild.me.highestRole.position >= msg.member.highestRole.position) {
         msg.channel.send(_lang.msg.cantUpdateYourRole);
         return;
     }
