@@ -51,6 +51,7 @@
         "invalidOrbCount": "Please provide a valid orb count.",
         "cantUpdateYourRole": "I can't change your nickname because your role is higher than me!",
         "noPermissionChangeNickname": "I don't have permission to change your nickname!",
+        "needAdmin": "I need to be an admin to change an admins nickname!",
         "updatedClaimedOrbCount": "Updated your orb count to {CLAIMED_ORBS} orbs!",
         "updatedUnclaimedOrbCount": "Updated your orb count to {CLAIMED_ORBS} orbs and {UNCLAIMED_ORBS} in your inbox!",
         "nicknameTooLong": "Your new nickname would be too long. Please shorten your nickname."
