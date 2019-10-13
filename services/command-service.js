@@ -130,11 +130,6 @@ function processSet(msg, args) {
         return;
     }
 
-    if (msg.member.hasPermission('ADMINISTRATOR') && !msg.guild.me.hasPermission('ADMINISTRATOR')) {
-        msg.channel.send(_lang.msg.needAdmin);
-        return;
-    }
-
     let member = msg.member;
     let displayName = member.displayName;
 
