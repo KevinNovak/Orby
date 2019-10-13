@@ -120,6 +120,11 @@ function processSet(msg, args) {
         return;
     };
 
+    if (msg.member.id === msg.guild.owner.id) {	
+        msg.channel.send(_lang.msg.cantUpdateOwnerNickname);	
+        return;	
+    }
+
     if (msg.guild.me.highestRole.position <= msg.member.highestRole.position) {
         msg.channel.send(_lang.msg.cantUpdateYourRole);
         return;
