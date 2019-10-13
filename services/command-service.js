@@ -120,10 +120,10 @@ function processSet(msg, args) {
         return;
     };
 
-    // if (msg.guild.me.highestRole.position >= msg.member.highestRole.position) {
-    //     msg.channel.send(_lang.msg.cantUpdateYourRole);
-    //     return;
-    // }
+    if (msg.guild.me.highestRole.position <= msg.member.highestRole.position) {
+        msg.channel.send(_lang.msg.cantUpdateYourRole);
+        return;
+    }
 
     if (msg.member.hasPermission('ADMINISTRATOR') && !msg.guild.me.hasPermission('ADMINISTRATOR')) {
         msg.channel.send(_lang.msg.needAdmin);
