@@ -36,7 +36,7 @@ function extractTotalOrbs(input) {
 
 function replaceClaimedOrbs(input, claimedOrbs) {
     let oldClaimedOrbs = extractClaimedOrbs(input);
-    if (!oldClaimedOrbs) {
+    if (oldClaimedOrbs == null) {
         return input;
     }
 
@@ -45,7 +45,7 @@ function replaceClaimedOrbs(input, claimedOrbs) {
 
 function replaceUnclaimedOrbs(input, unclaimedOrbs) {
     let oldUnclaimedOrbs = extractUnclaimedOrbs(input);
-    if (!oldUnclaimedOrbs) {
+    if (oldUnclaimedOrbs == null) {
         return input;
     }
 

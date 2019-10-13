@@ -95,7 +95,7 @@ function processSet(msg, args) {
         return;
     }
 
-    let newUnclaimedOrbs = 0;
+    let newUnclaimedOrbs = -1;
     if (args.length >= 4) {
         let unclaimedOrbsFromUser = args[3];
         if (isNaN(unclaimedOrbsFromUser)) {
@@ -139,13 +139,13 @@ function processSet(msg, args) {
     let newDisplayname = displayName;
 
     let currentClaimedOrbs = _regexUtils.extractClaimedOrbs(displayName);
-    if (currentClaimedOrbs) {
+    if (currentClaimedOrbs != null) {
         newDisplayname = _regexUtils.replaceClaimedOrbs(newDisplayname, claimedOrbsString);
     } else {
         newDisplayname = `${newDisplayname} (${claimedOrbsString})`
     }
 
-    if (newUnclaimedOrbs > 0) {
+    if (newUnclaimedOrbs >= 0) {
         let currentUnclaimedOrbs = _regexUtils.extractUnclaimedOrbs(newDisplayname);
         if (currentUnclaimedOrbs) {
             newDisplayname = _regexUtils.replaceUnclaimedOrbs(newDisplayname, unclaimedOrbsString);
