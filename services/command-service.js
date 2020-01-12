@@ -196,11 +196,34 @@ function processSet(msg, args) {
 }
 
 function processSay(msg, args, guilds) {
-    let guildId = args[2];
-    let channelId = args[3];
+    let authorId = msg.author.id;
+    if (!_config.owners.includes(authorId)) {
+        msg.channel.send("You don't have permission to use this command!");
+        return;
+    }
 
+    if (args.length < 5) {
+        msg.channel.send(
+            "**-orb say <server id> <channel id> <message>** - Make Orby send a message!"
+        );
+        return;
+    }
+
+    let guildId = args[2];
     let guild = guilds.find(guild => guild.id === guildId);
+    if (!guild) {
+        msg.channel.send(`Could not find a server with the ID "${guildId}".`);
+        return;
+    }
+
+    let channelId = args[3];
     let channel = guild.channels.find(channel => channel.id == channelId);
+    if (!channel) {
+        msg.channel.send(
+            `Could not find a channel with the ID "${channelId}".`
+        );
+        return;
+    }
 
     let message = args.slice(4).join(" ");
     channel.send(message);
