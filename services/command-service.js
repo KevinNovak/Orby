@@ -197,9 +197,13 @@ function processSet(msg, args) {
 
 function processSay(msg, args, guilds) {
     if (args.length < 5) {
-        msg.channel.send(
-            "**-orb say <server ID> <channel ID> <message>** - Make Orby send a message!"
-        );
+        const embed = new Discord.RichEmbed()
+            .setColor("#0099ff")
+            .setDescription(
+                "**-orb say <server ID> <channel ID> <message>** - Make Orby send a message!"
+            );
+
+        msg.channel.send(embed);
         return;
     }
 
