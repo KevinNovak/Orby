@@ -1,5 +1,6 @@
 {
     "token": "<YOUR_DISCORD_BOT_TOKEN>",
     "topCount": 25,
-    "maxOrbs": 1000000
+    "maxOrbs": 1000000,
+    "owners": ["<YOUR_DISCORD_ID>"]
 }

@@ -1,16 +1,16 @@
-const _regexUtils = require('../utils/regex-utils');
-const _config = require('../config/config.json');
-const _lang = require('../config/lang.json');
+const _regexUtils = require("../utils/regex-utils");
+const _config = require("../config/config.json");
+const _lang = require("../config/lang.json");
 
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 
-let _helpMsg = _lang.msg.help.join('\n');
+let _helpMsg = _lang.msg.help.join("\n");
 
 function processHelp(msg) {
     const embed = new Discord.RichEmbed()
-        .setColor('#0099ff')
+        .setColor("#0099ff")
         .setTitle(_lang.msg.helpTitle)
-        .setDescription(_helpMsg)
+        .setDescription(_helpMsg);
 
     msg.channel.send(embed);
 }
@@ -56,21 +56,26 @@ function processTop(msg, args) {
             .slice(0, _config.topCount);
     }
 
-    let description = ''
+    let description = "";
     for (let [index, data] of orbData.entries()) {
         let rank = index + 1;
-        description += _lang.msg.topFormat
-            .replace('{MEMBER_RANK}', rank)
-            .replace('{MEMBER_NAME}', data.displayName) + '\n';
+        description +=
+            _lang.msg.topFormat
+                .replace("{MEMBER_RANK}", rank)
+                .replace("{MEMBER_NAME}", data.displayName) + "\n";
     }
 
     const embed = new Discord.RichEmbed()
-        .setColor('#0099ff')
-        .setTitle(topType == "INBOX" ? _lang.msg.topHoardersInboxTitle : _lang.msg.topHoardersOverallTitle)
-        .setDescription(description)
+        .setColor("#0099ff")
+        .setTitle(
+            topType == "INBOX"
+                ? _lang.msg.topHoardersInboxTitle
+                : _lang.msg.topHoardersOverallTitle
+        )
+        .setDescription(description);
 
     msg.channel.send(embed);
-};
+}
 
 function processSet(msg, args) {
     if (!msg.guild) {
@@ -115,14 +120,14 @@ function processSet(msg, args) {
         return;
     }
 
-    if (!msg.guild.me.hasPermission('MANAGE_NICKNAMES')) {
+    if (!msg.guild.me.hasPermission("MANAGE_NICKNAMES")) {
         msg.channel.send(_lang.msg.noPermissionChangeNickname);
         return;
-    };
+    }
 
-    if (msg.member.id === msg.guild.owner.id) {	
-        msg.channel.send(_lang.msg.cantUpdateOwnerNickname);	
-        return;	
+    if (msg.member.id === msg.guild.owner.id) {
+        msg.channel.send(_lang.msg.cantUpdateOwnerNickname);
+        return;
     }
 
     if (msg.guild.me.highestRole.position <= msg.member.highestRole.position) {
@@ -140,17 +145,28 @@ function processSet(msg, args) {
 
     let currentClaimedOrbs = _regexUtils.extractClaimedOrbs(displayName);
     if (currentClaimedOrbs != null) {
-        newDisplayname = _regexUtils.replaceClaimedOrbs(newDisplayname, claimedOrbsString);
+        newDisplayname = _regexUtils.replaceClaimedOrbs(
+            newDisplayname,
+            claimedOrbsString
+        );
     } else {
-        newDisplayname = `${newDisplayname} (${claimedOrbsString})`
+        newDisplayname = `${newDisplayname} (${claimedOrbsString})`;
     }
 
     if (newUnclaimedOrbs >= 0) {
-        let currentUnclaimedOrbs = _regexUtils.extractUnclaimedOrbs(newDisplayname);
+        let currentUnclaimedOrbs = _regexUtils.extractUnclaimedOrbs(
+            newDisplayname
+        );
         if (currentUnclaimedOrbs) {
-            newDisplayname = _regexUtils.replaceUnclaimedOrbs(newDisplayname, unclaimedOrbsString);
+            newDisplayname = _regexUtils.replaceUnclaimedOrbs(
+                newDisplayname,
+                unclaimedOrbsString
+            );
         } else {
-            newDisplayname = _regexUtils.addUnclaimedOrbs(newDisplayname, unclaimedOrbsString);
+            newDisplayname = _regexUtils.addUnclaimedOrbs(
+                newDisplayname,
+                unclaimedOrbsString
+            );
         }
     } else {
         newDisplayname = _regexUtils.removeUnclaimedOrbs(newDisplayname);
@@ -166,15 +182,21 @@ function processSet(msg, args) {
     if (newUnclaimedOrbs > 0) {
         msg.channel.send(
             _lang.msg.updatedUnclaimedOrbCount
-                .replace('{CLAIMED_ORBS}', claimedOrbsString)
-                .replace('{UNCLAIMED_ORBS}', unclaimedOrbsString)
+                .replace("{CLAIMED_ORBS}", claimedOrbsString)
+                .replace("{UNCLAIMED_ORBS}", unclaimedOrbsString)
         );
     } else {
         msg.channel.send(
-            _lang.msg.updatedClaimedOrbCount
-                .replace('{CLAIMED_ORBS}', claimedOrbsString)
+            _lang.msg.updatedClaimedOrbCount.replace(
+                "{CLAIMED_ORBS}",
+                claimedOrbsString
+            )
         );
     }
+}
+
+function processSay(msg, args) {
+    msg.channel.send("Hello!");
 }
 
 function compareOrbCounts(a, b) {
@@ -190,5 +212,6 @@ function compareOrbCounts(a, b) {
 module.exports = {
     processHelp,
     processSet,
-    processTop
+    processTop,
+    processSay
 };

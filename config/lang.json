@@ -14,18 +14,10 @@
             "!orby",
             "?orby"
         ],
-        "help": [
-            "help",
-            "?"
-        ],
-        "set": [
-            "set"
-        ],
-        "top": [
-            "top",
-            "lb",
-            "leaderboard"
-        ]
+        "help": ["help", "?"],
+        "set": ["set"],
+        "top": ["top", "lb", "leaderboard"],
+        "say": ["say"]
     },
     "msg": {
         "presence": "FEH. Type \"-orb\".",
