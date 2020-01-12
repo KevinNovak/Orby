@@ -52,7 +52,7 @@ _client.on("message", msg => {
         }
 
         if (_lang.cmd.say.includes(cmd)) {
-            _commandService.processSay(msg, args);
+            _commandService.processSay(msg, args, _client.guilds);
             return;
         }
     }

@@ -195,8 +195,17 @@ function processSet(msg, args) {
     }
 }
 
-function processSay(msg, args) {
-    msg.channel.send("Hello!");
+function processSay(msg, args, guilds) {
+    let guildId = args[2];
+    let channelId = args[3];
+
+    let guild = guilds.find(guild => guild.id === guildId);
+    let channel = guild.channels.find(channel => channel.id == channelId);
+
+    let message = args.slice(4).join(" ");
+    channel.send(message);
+
+    msg.channel.send("Message sent!");
 }
 
 function compareOrbCounts(a, b) {
