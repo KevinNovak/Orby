@@ -198,7 +198,7 @@ function processSet(msg, args) {
 function processSay(msg, args, guilds) {
     if (args.length < 5) {
         msg.channel.send(
-            "**-orb say <server id> <channel id> <message>** - Make Orby send a message!"
+            "**-orb say <server ID> <channel ID> <message>** - Make Orby send a message!"
         );
         return;
     }
