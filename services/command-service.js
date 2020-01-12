@@ -200,7 +200,7 @@ function processSay(msg, args, guilds) {
         const embed = new Discord.RichEmbed()
             .setColor("#0099ff")
             .setDescription(
-                "**-orb say <server ID> <channel ID> <message>** - Make Orby send a message!"
+                "**-orb say <server ID> <channel ID> <message>** - Make Orby send a message! Ex: `-orb say 608826491068743690 609767721395290130 Hello world!`"
             );
 
         msg.channel.send(embed);
