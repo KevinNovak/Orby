@@ -196,12 +196,6 @@ function processSet(msg, args) {
 }
 
 function processSay(msg, args, guilds) {
-    let authorId = msg.author.id;
-    if (!_config.owners.includes(authorId)) {
-        msg.channel.send("You don't have permission to use this command!");
-        return;
-    }
-
     if (args.length < 5) {
         msg.channel.send(
             "**-orb say <server id> <channel id> <message>** - Make Orby send a message!"
