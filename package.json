@@ -10,11 +10,11 @@
   "author": "Kevin Novak",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^11.5.1",
-    "pm2": "^4.0.0"
+    "discord.js": "12.2.0",
+    "pm2": "^4.3.1"
   },
   "devDependencies": {
-    "nodemon": "^1.19.3"
+    "nodemon": "^2.0.3"
   },
   "homepage": "https://github.com/KevinNovak/Orby#readme",
   "repository": {

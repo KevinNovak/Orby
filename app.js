@@ -13,8 +13,8 @@ _client.on("ready", () => {
     _client.user.setPresence({
         game: {
             name: _lang.msg.presence,
-            type: "PLAYING"
-        }
+            type: "PLAYING",
+        },
     });
 });
 
@@ -24,7 +24,7 @@ function canReply(msg) {
         : true;
 }
 
-_client.on("message", msg => {
+_client.on("message", (msg) => {
     if (!_acceptMessages || msg.author.bot || !canReply(msg)) {
         return;
     }
@@ -64,10 +64,10 @@ _client.on("message", msg => {
     _commandService.processHelp(msg);
 });
 
-_client.on("error", error => {
+_client.on("error", (error) => {
     console.error(error);
 });
 
-_client.login(_config.token).catch(error => {
+_client.login(_config.token).catch((error) => {
     console.error(error);
 });

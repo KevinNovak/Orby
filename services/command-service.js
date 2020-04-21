@@ -7,7 +7,7 @@ const Discord = require("discord.js");
 let _helpMsg = _lang.msg.help.join("\n");
 
 function processHelp(msg) {
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
         .setColor("#0099ff")
         .setTitle(_lang.msg.helpTitle)
         .setDescription(_helpMsg);
@@ -15,7 +15,7 @@ function processHelp(msg) {
     msg.channel.send(embed);
 }
 
-function processTop(msg, args) {
+async function processTop(msg, args) {
     if (!msg.guild) {
         msg.channel.send(_lang.msg.notAllowedInDm);
         return;
@@ -29,29 +29,36 @@ function processTop(msg, args) {
         }
     }
 
-    let displayNames = msg.guild.members
-        .filter(member => !member.user.bot)
-        .map(member => member.displayName);
+    let members = [];
+    try {
+        members = await msg.guild.members.fetch();
+    } catch (error) {
+        return;
+    }
+
+    let displayNames = members
+        .filter((member) => !member.user.bot)
+        .map((member) => member.displayName);
 
     let orbData = [];
     if (topType == "INBOX") {
         orbData = displayNames
             .filter(_regexUtils.containsOrbs)
-            .map(displayName => ({
+            .map((displayName) => ({
                 displayName,
-                totalOrbs: _regexUtils.extractUnclaimedOrbs(displayName) || 0
+                totalOrbs: _regexUtils.extractUnclaimedOrbs(displayName) || 0,
             }))
-            .filter(orbData => orbData.totalOrbs > 0)
+            .filter((orbData) => orbData.totalOrbs > 0)
             .sort(compareOrbCounts)
             .slice(0, _config.topCount);
     } else {
         orbData = displayNames
             .filter(_regexUtils.containsOrbs)
-            .map(displayName => ({
+            .map((displayName) => ({
                 displayName,
-                totalOrbs: _regexUtils.extractTotalOrbs(displayName) || 0
+                totalOrbs: _regexUtils.extractTotalOrbs(displayName) || 0,
             }))
-            .filter(orbData => orbData.totalOrbs > 0)
+            .filter((orbData) => orbData.totalOrbs > 0)
             .sort(compareOrbCounts)
             .slice(0, _config.topCount);
     }
@@ -65,7 +72,7 @@ function processTop(msg, args) {
                 .replace("{MEMBER_NAME}", data.displayName) + "\n";
     }
 
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
         .setColor("#0099ff")
         .setTitle(
             topType == "INBOX"
@@ -130,7 +137,9 @@ function processSet(msg, args) {
         return;
     }
 
-    if (msg.guild.me.highestRole.position <= msg.member.highestRole.position) {
+    if (
+        msg.guild.me.roles.highest.position <= msg.member.roles.highest.position
+    ) {
         msg.channel.send(_lang.msg.cantUpdateYourRole);
         return;
     }
@@ -197,7 +206,7 @@ function processSet(msg, args) {
 
 function processSay(msg, args, guilds) {
     if (args.length < 5) {
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
             .setColor("#0099ff")
             .setDescription(
                 "**-orb say <server ID> <channel ID> <message>** - Make Orby send a message! Ex: `-orb say 608826491068743690 609767721395290130 Hello world!`"
@@ -208,14 +217,14 @@ function processSay(msg, args, guilds) {
     }
 
     let guildId = args[2];
-    let guild = guilds.find(guild => guild.id === guildId);
+    let guild = guilds.resolve(guildId);
     if (!guild) {
         msg.channel.send(`Could not find a server with the ID "${guildId}".`);
         return;
     }
 
     let channelId = args[3];
-    let channel = guild.channels.find(channel => channel.id == channelId);
+    let channel = guild.channels.resolve(channelId);
     if (!channel) {
         msg.channel.send(
             `Could not find a channel with the ID "${channelId}".`
@@ -243,5 +252,5 @@ module.exports = {
     processHelp,
     processSet,
     processTop,
-    processSay
+    processSay,
 };
