@@ -280,10 +280,10 @@ function processMembers(msg, args, guilds) {
 }
 
 function compareMembers(memberA, memberB) {
-    if (memberA.user.tag < memberB.user.tag) {
+    if (memberA.user.tag.toLowerCase() < memberB.user.tag.toLowerCase()) {
         return -1;
     }
-    if (memberA.user.tag > memberB.user.tag) {
+    if (memberA.user.tag.toLowerCase() > memberB.user.tag.toLowerCase()) {
         return 1;
     }
     return 0;
