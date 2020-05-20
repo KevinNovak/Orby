@@ -259,7 +259,7 @@ function processMembers(msg, args, guilds) {
         return;
     }
 
-    let members = guild.members.cache.array();
+    let members = guild.members.cache.array().sort(compareMembers);
     let message = "";
     for (let member of members) {
         let line = `**${member.user.tag}**: ${member.roles.cache
@@ -277,6 +277,16 @@ function processMembers(msg, args, guilds) {
     if (message.length > 1) {
         msg.channel.send(message);
     }
+}
+
+function compareMembers(memberA, memberB) {
+    if (memberA.user.tag < memberB.user.tag) {
+        return -1;
+    }
+    if (memberA.user.tag > memberB.user.tag) {
+        return 1;
+    }
+    return 0;
 }
 
 function compareOrbCounts(a, b) {
