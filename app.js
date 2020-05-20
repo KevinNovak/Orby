@@ -59,6 +59,15 @@ _client.on("message", (msg) => {
             _commandService.processSay(msg, args, _client.guilds);
             return;
         }
+
+        if (
+            _lang.cmd.members.includes(cmd) &&
+            !msg.guild &&
+            _config.owners.includes(msg.author.id)
+        ) {
+            _commandService.processMembers(msg, args, _client.guilds);
+            return;
+        }
     }
 
     _commandService.processHelp(msg);

@@ -238,6 +238,45 @@ function processSay(msg, args, guilds) {
     msg.channel.send("Message sent!");
 }
 
+function processMembers(msg, args, guilds) {
+    if (args.length < 3) {
+        const embed = new Discord.MessageEmbed()
+            .setColor("#0099ff")
+            .setDescription(
+                "**-orb members <server ID>** - Export server members. Ex: `-orb members 608826491068743690`"
+            );
+
+        msg.channel.send(embed);
+        return;
+    }
+
+    let guildId = args[2];
+    let guild = guilds.resolve(guildId);
+    if (!guild) {
+        msg.channel.send(`Could not find a server with the ID "${guildId}".`);
+        return;
+    }
+
+    let members = guild.members.cache.array();
+    let message = "";
+    for (let member of members) {
+        let line = `**${member.user.tag}**: ${member.roles.cache
+            .filter((role) => role.name != "@everyone")
+            .map((role) => role.name)
+            .sort()
+            .join(", ")}`;
+        line += "\n";
+        if (message.length + line.length > this.MAX_MESSAGE_LENGTH) {
+            msg.channel.send(message);
+            message = "";
+        }
+        message += line;
+    }
+    if (message.length > 1) {
+        msg.channel.send(message);
+    }
+}
+
 function compareOrbCounts(a, b) {
     if (a.totalOrbs > b.totalOrbs) {
         return -1;
@@ -253,4 +292,5 @@ module.exports = {
     processSet,
     processTop,
     processSay,
+    processMembers,
 };
