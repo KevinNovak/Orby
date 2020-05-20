@@ -6,6 +6,8 @@ const Discord = require("discord.js");
 
 let _helpMsg = _lang.msg.help.join("\n");
 
+let MAX_MESSAGE_LENGTH = 2000;
+
 function processHelp(msg) {
     const embed = new Discord.MessageEmbed()
         .setColor("#0099ff")
@@ -266,7 +268,7 @@ function processMembers(msg, args, guilds) {
             .sort()
             .join(", ")}`;
         line += "\n";
-        if (message.length + line.length > this.MAX_MESSAGE_LENGTH) {
+        if (message.length + line.length > MAX_MESSAGE_LENGTH) {
             msg.channel.send(message);
             message = "";
         }
