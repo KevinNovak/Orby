@@ -262,7 +262,7 @@ function processMembers(msg, args, guilds) {
     let members = guild.members.cache.array().sort(compareMembers);
     let message = "";
     for (let member of members) {
-        let line = `**${member.user.tag}**: ${member.roles.cache
+        let line = `\`${member.user.tag}\` --- ${member.roles.cache
             .filter((role) => role.name != "@everyone")
             .map((role) => role.name)
             .sort()
