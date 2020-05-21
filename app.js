@@ -8,6 +8,9 @@ const _client = new Discord.Client();
 let _ready = false;
 
 _client.on('ready', () => {
+    let userTag = _client.user.tag;
+    console.info(`Logged in as '${userTag}'!`);
+
     _client.user.setPresence({
         game: {
             name: _lang.msg.presence,
