@@ -5,17 +5,17 @@ const _lang = require('./config/lang.json');
 
 const _client = new Discord.Client();
 
-let _acceptMessages = false;
+let _ready = false;
 
 _client.on('ready', () => {
-    _acceptMessages = true;
-
     _client.user.setPresence({
         game: {
             name: _lang.msg.presence,
             type: 'PLAYING',
         },
     });
+
+    _ready = true;
 });
 
 function canReply(msg) {
@@ -23,7 +23,11 @@ function canReply(msg) {
 }
 
 _client.on('message', msg => {
-    if (!_acceptMessages || msg.author.bot || !canReply(msg)) {
+    if (!_ready) {
+        return;
+    }
+
+    if (msg.author.bot || !canReply(msg)) {
         return;
     }
 
