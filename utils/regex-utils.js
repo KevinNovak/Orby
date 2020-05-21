@@ -7,14 +7,14 @@ function containsOrbs(input) {
 function extractClaimedOrbs(input) {
     let match = ORB_COUNT_REGEX.exec(input);
     if (match && match[4]) {
-        return parseInt(match[4].replace(/,/g, ""));
+        return parseInt(match[4].replace(/,/g, ''));
     }
 }
 
 function extractUnclaimedOrbs(input) {
     let match = ORB_COUNT_REGEX.exec(input);
     if (match && match[8]) {
-        return parseInt(match[8].replace(/,/g, ""));
+        return parseInt(match[8].replace(/,/g, ''));
     }
 }
 
@@ -49,17 +49,11 @@ function replaceUnclaimedOrbs(input, unclaimedOrbs) {
         return input;
     }
 
-    return input.replace(
-        ORB_COUNT_REGEX,
-        `$1$2$3$4$6$7${unclaimedOrbs}$9$10$11`
-    );
+    return input.replace(ORB_COUNT_REGEX, `$1$2$3$4$6$7${unclaimedOrbs}$9$10$11`);
 }
 
 function addUnclaimedOrbs(input, unclaimedOrbs) {
-    return input.replace(
-        ORB_COUNT_REGEX,
-        `$1$2$3$4$6+${unclaimedOrbs}$9$10$11`
-    );
+    return input.replace(ORB_COUNT_REGEX, `$1$2$3$4$6+${unclaimedOrbs}$9$10$11`);
 }
 
 function removeUnclaimedOrbs(input) {

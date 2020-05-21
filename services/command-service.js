@@ -1,16 +1,16 @@
-const _regexUtils = require("../utils/regex-utils");
-const _config = require("../config/config.json");
-const _lang = require("../config/lang.json");
+const _regexUtils = require('../utils/regex-utils');
+const _config = require('../config/config.json');
+const _lang = require('../config/lang.json');
 
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
-let _helpMsg = _lang.msg.help.join("\n");
+let _helpMsg = _lang.msg.help.join('\n');
 
 let MAX_MESSAGE_LENGTH = 2000;
 
 function processHelp(msg) {
     const embed = new Discord.MessageEmbed()
-        .setColor("#0099ff")
+        .setColor('#0099ff')
         .setTitle(_lang.msg.helpTitle)
         .setDescription(_helpMsg);
 
@@ -23,11 +23,11 @@ async function processTop(msg, args) {
         return;
     }
 
-    let topType = "OVERALL";
+    let topType = 'OVERALL';
 
     if (args.length >= 3) {
-        if (args[2].toUpperCase() == "INBOX") {
-            topType = "INBOX";
+        if (args[2].toUpperCase() == 'INBOX') {
+            topType = 'INBOX';
         }
     }
 
@@ -38,48 +38,44 @@ async function processTop(msg, args) {
         return;
     }
 
-    let displayNames = members
-        .filter((member) => !member.user.bot)
-        .map((member) => member.displayName);
+    let displayNames = members.filter(member => !member.user.bot).map(member => member.displayName);
 
     let orbData = [];
-    if (topType == "INBOX") {
+    if (topType == 'INBOX') {
         orbData = displayNames
             .filter(_regexUtils.containsOrbs)
-            .map((displayName) => ({
+            .map(displayName => ({
                 displayName,
                 totalOrbs: _regexUtils.extractUnclaimedOrbs(displayName) || 0,
             }))
-            .filter((orbData) => orbData.totalOrbs > 0)
+            .filter(orbData => orbData.totalOrbs > 0)
             .sort(compareOrbCounts)
             .slice(0, _config.topCount);
     } else {
         orbData = displayNames
             .filter(_regexUtils.containsOrbs)
-            .map((displayName) => ({
+            .map(displayName => ({
                 displayName,
                 totalOrbs: _regexUtils.extractTotalOrbs(displayName) || 0,
             }))
-            .filter((orbData) => orbData.totalOrbs > 0)
+            .filter(orbData => orbData.totalOrbs > 0)
             .sort(compareOrbCounts)
             .slice(0, _config.topCount);
     }
 
-    let description = "";
+    let description = '';
     for (let [index, data] of orbData.entries()) {
         let rank = index + 1;
         description +=
             _lang.msg.topFormat
-                .replace("{MEMBER_RANK}", rank)
-                .replace("{MEMBER_NAME}", data.displayName) + "\n";
+                .replace('{MEMBER_RANK}', rank)
+                .replace('{MEMBER_NAME}', data.displayName) + '\n';
     }
 
     const embed = new Discord.MessageEmbed()
-        .setColor("#0099ff")
+        .setColor('#0099ff')
         .setTitle(
-            topType == "INBOX"
-                ? _lang.msg.topHoardersInboxTitle
-                : _lang.msg.topHoardersOverallTitle
+            topType == 'INBOX' ? _lang.msg.topHoardersInboxTitle : _lang.msg.topHoardersOverallTitle
         )
         .setDescription(description);
 
@@ -129,7 +125,7 @@ function processSet(msg, args) {
         return;
     }
 
-    if (!msg.guild.me.hasPermission("MANAGE_NICKNAMES")) {
+    if (!msg.guild.me.hasPermission('MANAGE_NICKNAMES')) {
         msg.channel.send(_lang.msg.noPermissionChangeNickname);
         return;
     }
@@ -139,9 +135,7 @@ function processSet(msg, args) {
         return;
     }
 
-    if (
-        msg.guild.me.roles.highest.position <= msg.member.roles.highest.position
-    ) {
+    if (msg.guild.me.roles.highest.position <= msg.member.roles.highest.position) {
         msg.channel.send(_lang.msg.cantUpdateYourRole);
         return;
     }
@@ -156,28 +150,17 @@ function processSet(msg, args) {
 
     let currentClaimedOrbs = _regexUtils.extractClaimedOrbs(displayName);
     if (currentClaimedOrbs != null) {
-        newDisplayname = _regexUtils.replaceClaimedOrbs(
-            newDisplayname,
-            claimedOrbsString
-        );
+        newDisplayname = _regexUtils.replaceClaimedOrbs(newDisplayname, claimedOrbsString);
     } else {
         newDisplayname = `${newDisplayname} (${claimedOrbsString})`;
     }
 
     if (newUnclaimedOrbs >= 0) {
-        let currentUnclaimedOrbs = _regexUtils.extractUnclaimedOrbs(
-            newDisplayname
-        );
+        let currentUnclaimedOrbs = _regexUtils.extractUnclaimedOrbs(newDisplayname);
         if (currentUnclaimedOrbs) {
-            newDisplayname = _regexUtils.replaceUnclaimedOrbs(
-                newDisplayname,
-                unclaimedOrbsString
-            );
+            newDisplayname = _regexUtils.replaceUnclaimedOrbs(newDisplayname, unclaimedOrbsString);
         } else {
-            newDisplayname = _regexUtils.addUnclaimedOrbs(
-                newDisplayname,
-                unclaimedOrbsString
-            );
+            newDisplayname = _regexUtils.addUnclaimedOrbs(newDisplayname, unclaimedOrbsString);
         }
     } else {
         newDisplayname = _regexUtils.removeUnclaimedOrbs(newDisplayname);
@@ -193,15 +176,12 @@ function processSet(msg, args) {
     if (newUnclaimedOrbs > 0) {
         msg.channel.send(
             _lang.msg.updatedUnclaimedOrbCount
-                .replace("{CLAIMED_ORBS}", claimedOrbsString)
-                .replace("{UNCLAIMED_ORBS}", unclaimedOrbsString)
+                .replace('{CLAIMED_ORBS}', claimedOrbsString)
+                .replace('{UNCLAIMED_ORBS}', unclaimedOrbsString)
         );
     } else {
         msg.channel.send(
-            _lang.msg.updatedClaimedOrbCount.replace(
-                "{CLAIMED_ORBS}",
-                claimedOrbsString
-            )
+            _lang.msg.updatedClaimedOrbCount.replace('{CLAIMED_ORBS}', claimedOrbsString)
         );
     }
 }
@@ -209,9 +189,9 @@ function processSet(msg, args) {
 function processSay(msg, args, guilds) {
     if (args.length < 5) {
         const embed = new Discord.MessageEmbed()
-            .setColor("#0099ff")
+            .setColor('#0099ff')
             .setDescription(
-                "**-orb say <server ID> <channel ID> <message>** - Make Orby send a message! Ex: `-orb say 608826491068743690 609767721395290130 Hello world!`"
+                '**-orb say <server ID> <channel ID> <message>** - Make Orby send a message! Ex: `-orb say 608826491068743690 609767721395290130 Hello world!`'
             );
 
         msg.channel.send(embed);
@@ -228,24 +208,22 @@ function processSay(msg, args, guilds) {
     let channelId = args[3];
     let channel = guild.channels.resolve(channelId);
     if (!channel) {
-        msg.channel.send(
-            `Could not find a channel with the ID "${channelId}".`
-        );
+        msg.channel.send(`Could not find a channel with the ID "${channelId}".`);
         return;
     }
 
-    let message = args.slice(4).join(" ");
+    let message = args.slice(4).join(' ');
     channel.send(message);
 
-    msg.channel.send("Message sent!");
+    msg.channel.send('Message sent!');
 }
 
 function processMembers(msg, args, guilds) {
     if (args.length < 3) {
         const embed = new Discord.MessageEmbed()
-            .setColor("#0099ff")
+            .setColor('#0099ff')
             .setDescription(
-                "**-orb members <server ID>** - Export server members. Ex: `-orb members 608826491068743690`"
+                '**-orb members <server ID>** - Export server members. Ex: `-orb members 608826491068743690`'
             );
 
         msg.channel.send(embed);
@@ -260,17 +238,17 @@ function processMembers(msg, args, guilds) {
     }
 
     let members = guild.members.cache.array().sort(compareMembers);
-    let message = "";
+    let message = '';
     for (let member of members) {
         let line = `\`${member.user.tag}\` --- ${member.roles.cache
-            .filter((role) => role.name != "@everyone")
-            .map((role) => role.name)
+            .filter(role => role.name != '@everyone')
+            .map(role => role.name)
             .sort()
-            .join(", ")}`;
-        line += "\n";
+            .join(', ')}`;
+        line += '\n';
         if (message.length + line.length > MAX_MESSAGE_LENGTH) {
             msg.channel.send(message);
-            message = "";
+            message = '';
         }
         message += line;
     }
