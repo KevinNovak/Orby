@@ -1,4 +1,4 @@
-const _usersRepo = require('../repos/users-repo');
+const _membersRepo = require('../repos/members-repo');
 const _regexUtils = require('../utils/regex-utils');
 const _config = require('../config/config.json');
 const _lang = require('../config/lang.json');
@@ -35,6 +35,7 @@ async function processTop(msg, args) {
     let members = [];
     try {
         members = await msg.guild.members.fetch();
+        members = _membersRepo.getActiveMembers(msg.guild.id, members);
     } catch (error) {
         return;
     }
@@ -172,7 +173,7 @@ function processSet(msg, args) {
         return;
     }
 
-    _usersRepo.setLastSetTime(msg.guild.id, msg.author.id, new Date().toISOString());
+    _membersRepo.setLastSetTime(msg.guild.id, msg.author.id, new Date().toISOString());
     msg.member.setNickname(newDisplayname);
 
     if (newUnclaimedOrbs > 0) {
