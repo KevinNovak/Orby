@@ -1,15 +1,16 @@
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const fileUtils = require('../utils/file-utils');
+const _config = require('../config/config.json');
 
-const guildMembers = {};
+const _guildMembers = {};
 
 function connectGuild(guildId) {
     var membersPath = fileUtils.getFullPath(`../data/${guildId}/members.json`);
     fileUtils.createIfNotExists(membersPath, JSON.stringify([]));
     var membersFile = new FileSync(membersPath);
     var membersDb = low(membersFile);
-    guildMembers[guildId] = membersDb;
+    _guildMembers[guildId] = membersDb;
 }
 
 function connectGuilds(guildIds) {
@@ -18,17 +19,29 @@ function connectGuilds(guildIds) {
     }
 }
 
-function getActiveMembers(guildId, memberIds) {
-    return memberIds[guildId].filter(
-        member => memberIds.includes(member.id) && member.lastSetTime > null
+function getActiveMembers(guildId, members) {
+    let savedMembers = _guildMembers[guildId].value();
+    let activeGuildMembers = members.filter(member =>
+        savedMembers.some(
+            savedMember =>
+                savedMember.id === member.id &&
+                new Date() < addDays(new Date(savedMember.lastSetTime), _config.expireDays)
+        )
     );
+    return activeGuildMembers;
+}
+
+function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
 }
 
 function setLastSetTime(guildId, memberId, lastSetTime) {
-    if (guildMembers[guildId].find({ id: memberId }).value()) {
-        guildMembers[guildId].find({ id: memberId }).assign({ lastSetTime: lastSetTime }).write();
+    if (_guildMembers[guildId].find({ id: memberId }).value()) {
+        _guildMembers[guildId].find({ id: memberId }).assign({ lastSetTime: lastSetTime }).write();
     } else {
-        guildMembers[guildId].push({ id: memberId, lastSetTime: lastSetTime }).write();
+        _guildMembers[guildId].push({ id: memberId, lastSetTime: lastSetTime }).write();
     }
 }
 

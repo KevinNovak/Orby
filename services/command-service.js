@@ -34,7 +34,7 @@ async function processTop(msg, args) {
 
     let members = [];
     try {
-        members = await msg.guild.members.fetch();
+        members = await msg.guild.members.cache;
         members = _membersRepo.getActiveMembers(msg.guild.id, members);
     } catch (error) {
         return;
