@@ -1,27 +1,16 @@
 {
-  "name": "orby",
-  "version": "1.0.0",
-  "description": "Discord bot for OrbHoarders.",
-  "main": "app.js",
-  "scripts": {
-    "start": "pm2 start process.json",
-    "dev": "nodemon app.js"
-  },
-  "author": "Kevin Novak",
-  "license": "MIT",
-  "dependencies": {
-    "discord.js": "12.2.0",
-    "pm2": "^4.4.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
-  },
-  "homepage": "https://github.com/KevinNovak/Orby#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/KevinNovak/Orby.git"
-  },
-  "bugs": {
-    "url": "https://github.com/KevinNovak/Orby/issues"
-  }
+    "name": "orby-bot",
+    "version": "1.0.0",
+    "description": "Discord bot for OrbHoarders.",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "start-pm2": "pm2 start process.json"
+    },
+    "author": "Kevin Novak",
+    "license": "MIT",
+    "dependencies": {
+        "discord.js": "12.2.0",
+        "pm2": "^4.4.0"
+    }
 }
