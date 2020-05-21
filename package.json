@@ -14,7 +14,7 @@
     "pm2": "^4.4.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.4"
   },
   "homepage": "https://github.com/KevinNovak/Orby#readme",
   "repository": {
