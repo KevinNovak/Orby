@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const _usersRepo = require('./repos/users-repo');
 const _commandService = require('./services/command-service');
 const _config = require('./config/config.json');
 const _lang = require('./config/lang.json');
@@ -18,6 +19,10 @@ _client.on('ready', () => {
         },
     });
 
+    var serverIds = _client.guilds.cache.keyArray();
+    _usersRepo.connectServers(serverIds);
+
+    console.info(`Startup complete.`);
     _ready = true;
 });
 
@@ -72,6 +77,10 @@ _client.on('message', msg => {
     }
 
     _commandService.processHelp(msg);
+});
+
+_client.on('guildCreate', guild => {
+    _usersRepo.connectServer(guild.id);
 });
 
 _client.on('error', error => {
