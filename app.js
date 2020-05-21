@@ -13,7 +13,7 @@ _client.on('ready', () => {
     console.info(`Logged in as '${userTag}'!`);
 
     _client.user.setPresence({
-        game: {
+        activity: {
             name: _lang.msg.presence,
             type: 'PLAYING',
         },
