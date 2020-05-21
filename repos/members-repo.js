@@ -19,16 +19,18 @@ function connectGuilds(guildIds) {
     }
 }
 
-function getActiveMembers(guildId, members) {
-    let savedMembers = _guildMembers[guildId].value();
-    let activeGuildMembers = members.filter(member =>
-        savedMembers.some(
-            savedMember =>
-                savedMember.id === member.id &&
-                new Date() < addDays(new Date(savedMember.lastSetTime), _config.expireDays)
-        )
+function getActiveMembers(guild) {
+    let members = guild.members.cache;
+    let savedMembers = _guildMembers[guild.id].value();
+    let activeMembers = members.filter(
+        member =>
+            savedMembers.some(
+                savedMember =>
+                    savedMember.id === member.id &&
+                    new Date() < addDays(new Date(savedMember.lastSetTime), _config.expireDays)
+            ) || member.id === guild.ownerID
     );
-    return activeGuildMembers;
+    return activeMembers;
 }
 
 function addDays(date, days) {
