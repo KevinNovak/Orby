@@ -3,5 +3,6 @@
     "topCount": 25,
     "maxOrbs": 1000000,
     "expireDays": 14,
-    "owners": ["<YOUR_DISCORD_ID>"]
+    "owners": ["<YOUR_DISCORD_ID>"],
+    "bannedServers": ["<BANNED_SERVER_ID>"]
 }

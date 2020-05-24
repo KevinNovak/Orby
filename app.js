@@ -8,10 +8,19 @@ const _client = new Discord.Client();
 
 let _ready = false;
 
-_client.on('ready', () => {
+_client.on('ready', async () => {
     let userTag = _client.user.tag;
     console.info(`Logged in as '${userTag}'!`);
 
+    // Leave banned guilds
+    for (let guild of _client.guilds.cache.array()) {
+        if (_config.bannedServers.includes(guild.id)) {
+            await guild.leave();
+            console.info(`Left banned guild '${guild.name}' (${guild.id})!`);
+        }
+    }
+
+    // Set presence
     _client.user.setPresence({
         activity: {
             name: _lang.msg.presence,
@@ -19,8 +28,7 @@ _client.on('ready', () => {
         },
     });
 
-    var serverIds = _client.guilds.cache.keyArray();
-    _membersRepo.connectGuilds(serverIds);
+    _membersRepo.connectGuilds(_client.guilds.cache.keyArray());
 
     console.info(`Startup complete.`);
     _ready = true;
