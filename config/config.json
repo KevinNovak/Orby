@@ -1,6 +1,6 @@
 {
     "token": "<YOUR_DISCORD_BOT_TOKEN>",
-    "topCount": 25,
+    "topPageSize": 25,
     "maxOrbs": 1000000,
     "expireDays": 14,
     "owners": ["<YOUR_DISCORD_ID>"],

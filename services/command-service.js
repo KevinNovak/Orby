@@ -1,5 +1,7 @@
 const _membersRepo = require('../repos/members-repo');
 const _regexUtils = require('../utils/regex-utils');
+const _mathUtils = require('../utils/math-utils');
+const _arrayUtils = require('../utils/array-utils');
 const _config = require('../config/config.json');
 const _lang = require('../config/lang.json');
 
@@ -50,8 +52,7 @@ async function processTop(msg, args) {
                 totalOrbs: _regexUtils.extractUnclaimedOrbs(displayName) || 0,
             }))
             .filter(orbData => orbData.totalOrbs > 0)
-            .sort(compareOrbCounts)
-            .slice(0, _config.topCount);
+            .sort(compareOrbCounts);
     } else {
         orbData = displayNames
             .filter(_regexUtils.containsOrbs)
@@ -60,25 +61,34 @@ async function processTop(msg, args) {
                 totalOrbs: _regexUtils.extractTotalOrbs(displayName) || 0,
             }))
             .filter(orbData => orbData.totalOrbs > 0)
-            .sort(compareOrbCounts)
-            .slice(0, _config.topCount);
+            .sort(compareOrbCounts);
     }
 
-    let description = '';
+    let lines = [];
     for (let [index, data] of orbData.entries()) {
         let rank = index + 1;
-        description +=
+        lines.push(
             _lang.msg.topFormat
                 .replace('{MEMBER_RANK}', rank)
-                .replace('{MEMBER_NAME}', data.displayName) + '\n';
+                .replace('{MEMBER_NAME}', data.displayName)
+        );
     }
+
+    let pageSize = _config.topPageSize;
+    let maxPage = Math.ceil(lines.length / pageSize) || 1;
+    let page = _mathUtils.clamp(parseInt(topType == 'INBOX' ? args[2] : args[3]) || 1, 1, maxPage);
+
+    let pageLines = _arrayUtils.paginate(lines, pageSize, page);
+    let description = pageLines.join('\n') || 'No members!';
+    let footer = `Page ${page.toLocaleString()} of ${maxPage.toLocaleString()}`;
 
     const embed = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle(
             topType == 'INBOX' ? _lang.msg.topHoardersInboxTitle : _lang.msg.topHoardersOverallTitle
         )
-        .setDescription(description);
+        .setDescription(description)
+        .setFooter(footer);
 
     msg.channel.send(embed);
 }
