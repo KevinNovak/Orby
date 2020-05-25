@@ -76,7 +76,11 @@ async function processTop(msg, args) {
 
     let pageSize = _config.topPageSize;
     let maxPage = Math.ceil(lines.length / pageSize) || 1;
-    let page = _mathUtils.clamp(parseInt(topType == 'INBOX' ? args[2] : args[3]) || 1, 1, maxPage);
+    let page = _mathUtils.clamp(
+        parseInt(topType == 'OVERALL' ? args[2] : args[3]) || 1,
+        1,
+        maxPage
+    );
 
     let pageLines = _arrayUtils.paginate(lines, pageSize, page);
     let description = pageLines.join('\n') || 'No members!';
