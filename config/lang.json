@@ -32,9 +32,9 @@
             "",
             "**-orb set <# claimed orbs> <# inbox orbs>** - Show your orb counts in your nickname, both your claimed orbs and those in your inbox. Ex: `-orb set 156 32`",
             "",
-            "**-orb top** - Show the top overall orb hoarders.",
+            "**-orb top [page]** - Show the top overall orb hoarders.",
             "",
-            "**-orb top inbox** - Show the top inbox orb hoarders."
+            "**-orb top inbox [page]** - Show the top inbox orb hoarders."
         ],
         "topHoardersOverallTitle": "Top Orb Hoarders - Overall",
         "topHoardersInboxTitle": "Top Orb Hoarders - Inbox",
