@@ -38,7 +38,7 @@
         ],
         "topSaversOverallTitle": "Top Orb Savers - Overall",
         "topSaversInboxTitle": "Top Orb Savers - Inbox",
-        "topFormat": "**{MEMBER_RANK}**. {MEMBER_NAME}",
+        "topFormat": "**{MEMBER_RANK}**. `{ORB_COUNT}` - {MEMBER_NAME}",
         "notAllowedInDm": "This command doesn't work in direct messages. Try again in a server channel.",
         "noOrbCountProvided": "Please provide an orb count.",
         "invalidOrbCount": "Please provide a valid orb count.",

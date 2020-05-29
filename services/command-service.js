@@ -69,7 +69,8 @@ async function processTop(msg, args) {
         let rank = index + 1;
         lines.push(
             _lang.msg.topFormat
-                .replace('{MEMBER_RANK}', rank)
+                .replace('{MEMBER_RANK}', rank.toLocaleString())
+                .replace('{ORB_COUNT}', data.orbCount.toLocaleString())
                 .replace('{MEMBER_NAME}', data.displayName)
         );
     }
