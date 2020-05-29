@@ -49,18 +49,18 @@ async function processTop(msg, args) {
             .filter(_regexUtils.containsOrbs)
             .map(displayName => ({
                 displayName,
-                totalOrbs: _regexUtils.extractUnclaimedOrbs(displayName) || 0,
+                orbCount: _regexUtils.extractUnclaimedOrbs(displayName) || 0,
             }))
-            .filter(orbData => orbData.totalOrbs > 0)
+            .filter(orbData => orbData.orbCount > 0)
             .sort(compareOrbCounts);
     } else {
         orbData = displayNames
             .filter(_regexUtils.containsOrbs)
             .map(displayName => ({
                 displayName,
-                totalOrbs: _regexUtils.extractTotalOrbs(displayName) || 0,
+                orbCount: _regexUtils.extractTotalOrbs(displayName) || 0,
             }))
-            .filter(orbData => orbData.totalOrbs > 0)
+            .filter(orbData => orbData.orbCount > 0)
             .sort(compareOrbCounts);
     }
 
@@ -284,10 +284,10 @@ function compareMembers(memberA, memberB) {
 }
 
 function compareOrbCounts(a, b) {
-    if (a.totalOrbs > b.totalOrbs) {
+    if (a.orbCount > b.orbCount) {
         return -1;
     }
-    if (a.totalOrbs < b.totalOrbs) {
+    if (a.orbCount < b.orbCount) {
         return 1;
     }
     return 0;
