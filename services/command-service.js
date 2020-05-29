@@ -89,7 +89,7 @@ async function processTop(msg, args) {
     const embed = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle(
-            topType == 'INBOX' ? _lang.msg.topHoardersInboxTitle : _lang.msg.topHoardersOverallTitle
+            topType == 'INBOX' ? _lang.msg.topSaversInboxTitle : _lang.msg.topSaversOverallTitle
         )
         .setDescription(description)
         .setFooter(footer);

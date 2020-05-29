@@ -32,12 +32,12 @@
             "",
             "**-orb set <# claimed orbs> <# inbox orbs>** - Show your orb counts in your nickname, both your claimed orbs and those in your inbox. Ex: `-orb set 156 32`",
             "",
-            "**-orb top [page]** - Show the top overall orb hoarders.",
+            "**-orb top [page]** - Show the top overall orb savers.",
             "",
-            "**-orb top inbox [page]** - Show the top inbox orb hoarders."
+            "**-orb top inbox [page]** - Show the top inbox orb savers."
         ],
-        "topHoardersOverallTitle": "Top Orb Hoarders - Overall",
-        "topHoardersInboxTitle": "Top Orb Hoarders - Inbox",
+        "topSaversOverallTitle": "Top Orb Savers - Overall",
+        "topSaversInboxTitle": "Top Orb Savers - Inbox",
         "topFormat": "**{MEMBER_RANK}**. {MEMBER_NAME}",
         "notAllowedInDm": "This command doesn't work in direct messages. Try again in a server channel.",
         "noOrbCountProvided": "Please provide an orb count.",

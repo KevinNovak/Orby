@@ -1,7 +1,7 @@
 {
     "name": "orby-bot",
     "version": "1.0.0",
-    "description": "Discord bot for OrbHoarders.",
+    "description": "Discord bot for Aether Cafe.",
     "main": "app.js",
     "scripts": {
         "start": "node app.js",
