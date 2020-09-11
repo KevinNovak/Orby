@@ -4,7 +4,7 @@ const _commandService = require('./services/command-service');
 const _config = require('./config/config.json');
 const _lang = require('./config/lang.json');
 
-const _client = new Discord.Client();
+const _client = new Discord.Client({ ws: { intents: _config.intents } });
 
 let _ready = false;
 

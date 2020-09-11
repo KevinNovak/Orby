@@ -4,5 +4,6 @@
     "maxOrbs": 1000000,
     "expireDays": 14,
     "owners": ["<YOUR_DISCORD_ID>"],
-    "bannedServers": ["<BANNED_SERVER_ID>"]
+    "bannedServers": ["<BANNED_SERVER_ID>"],
+    "intents": ["GUILDS", "GUILD_MEMBERS", "GUILD_PRESENCES", "GUILD_MESSAGES", "DIRECT_MESSAGES"]
 }
