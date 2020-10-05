@@ -111,13 +111,13 @@ export class CommandService {
             return;
         }
 
-        let claimedOrbsFromUser = args[2];
-        if (isNaN(+claimedOrbsFromUser)) {
+        let claimedOrbsInput = args[2];
+        if (isNaN(+claimedOrbsInput)) {
             await msg.channel.send(Lang.msg.invalidOrbCount);
             return;
         }
 
-        let newClaimedOrbs = parseInt(claimedOrbsFromUser);
+        let newClaimedOrbs = parseInt(claimedOrbsInput);
         if (newClaimedOrbs < 0 || newClaimedOrbs > Config.experience.maxOrbs) {
             await msg.channel.send(Lang.msg.invalidOrbCount);
             return;
