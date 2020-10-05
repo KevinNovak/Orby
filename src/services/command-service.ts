@@ -117,13 +117,13 @@ export class CommandService {
             return;
         }
 
-        let newClaimedOrbs = parseInt(claimedOrbsInput);
-        if (newClaimedOrbs < 0 || newClaimedOrbs > Config.experience.maxOrbs) {
+        let claimedOrbs = parseInt(claimedOrbsInput);
+        if (claimedOrbs < 0 || claimedOrbs > Config.experience.maxOrbs) {
             await msg.channel.send(Lang.msg.invalidOrbCount);
             return;
         }
 
-        let newInboxOrbs = -1;
+        let inboxOrbs = -1;
         if (args.length >= 4) {
             let inboxOrbsInput = args[3];
             if (isNaN(+inboxOrbsInput)) {
@@ -131,8 +131,8 @@ export class CommandService {
                 return;
             }
 
-            newInboxOrbs = parseInt(inboxOrbsInput);
-            if (newInboxOrbs < 0 || newInboxOrbs > Config.experience.maxOrbs) {
+            inboxOrbs = parseInt(inboxOrbsInput);
+            if (inboxOrbs < 0 || inboxOrbs > Config.experience.maxOrbs) {
                 await msg.channel.send(Lang.msg.invalidOrbCount);
                 return;
             }
@@ -159,40 +159,37 @@ export class CommandService {
         }
 
         let member = msg.member;
-        let displayName = member.displayName;
 
-        let claimedOrbsString = newClaimedOrbs.toLocaleString();
-        let inboxOrbsString = newInboxOrbs.toLocaleString();
+        let claimedOrbsString = claimedOrbs.toLocaleString();
+        let inboxOrbsString = inboxOrbs.toLocaleString();
 
-        let newDisplayname = displayName;
+        let currentClaimedOrbs = RegexUtils.extractClaimedOrbs(member.displayName);
 
-        let currentClaimedOrbs = RegexUtils.extractClaimedOrbs(displayName);
-        if (currentClaimedOrbs != null) {
-            newDisplayname = RegexUtils.replaceClaimedOrbs(newDisplayname, claimedOrbsString);
-        } else {
-            newDisplayname = `${newDisplayname} (${claimedOrbsString})`;
-        }
+        let displayName =
+            currentClaimedOrbs != null
+                ? RegexUtils.replaceClaimedOrbs(member.displayName, claimedOrbsString)
+                : `${member.displayName} (${claimedOrbsString})`;
 
-        if (newInboxOrbs >= 0) {
-            let currentInboxOrbs = RegexUtils.extractInboxOrbs(newDisplayname);
+        if (inboxOrbs >= 0) {
+            let currentInboxOrbs = RegexUtils.extractInboxOrbs(displayName);
             if (currentInboxOrbs) {
-                newDisplayname = RegexUtils.replaceInboxOrbs(newDisplayname, inboxOrbsString);
+                displayName = RegexUtils.replaceInboxOrbs(displayName, inboxOrbsString);
             } else {
-                newDisplayname = RegexUtils.addInboxOrbs(newDisplayname, inboxOrbsString);
+                displayName = RegexUtils.addInboxOrbs(displayName, inboxOrbsString);
             }
         } else {
-            newDisplayname = RegexUtils.removeInboxOrbs(newDisplayname);
+            displayName = RegexUtils.removeInboxOrbs(displayName);
         }
 
-        if (newDisplayname.length > 32) {
+        if (displayName.length > 32) {
             await msg.channel.send(Lang.msg.nicknameTooLong);
             return;
         }
 
         this.memberRepo.setLastSetTime(msg.guild.id, msg.author.id, new Date().toISOString());
-        msg.member.setNickname(newDisplayname);
+        await msg.member.setNickname(displayName);
 
-        if (newInboxOrbs > 0) {
+        if (inboxOrbs > 0) {
             await msg.channel.send(
                 Lang.msg.updatedInboxOrbCount
                     .replace('{CLAIMED_ORBS}', claimedOrbsString)
