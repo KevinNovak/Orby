@@ -51,7 +51,7 @@ export class CommandService {
                 .filter(RegexUtils.containsOrbs)
                 .map(displayName => ({
                     displayName,
-                    orbCount: RegexUtils.extractUnclaimedOrbs(displayName) || 0,
+                    orbCount: RegexUtils.extractInboxOrbs(displayName) || 0,
                 }))
                 .filter(orbData => orbData.orbCount > 0)
                 .sort(this.compareOrbCounts);
@@ -123,16 +123,16 @@ export class CommandService {
             return;
         }
 
-        let newUnclaimedOrbs = -1;
+        let newInboxOrbs = -1;
         if (args.length >= 4) {
-            let unclaimedOrbsFromUser = args[3];
-            if (isNaN(+unclaimedOrbsFromUser)) {
+            let inboxOrbsInput = args[3];
+            if (isNaN(+inboxOrbsInput)) {
                 await msg.channel.send(Lang.msg.invalidOrbCount);
                 return;
             }
 
-            newUnclaimedOrbs = parseInt(unclaimedOrbsFromUser);
-            if (newUnclaimedOrbs < 0 || newUnclaimedOrbs > Config.experience.maxOrbs) {
+            newInboxOrbs = parseInt(inboxOrbsInput);
+            if (newInboxOrbs < 0 || newInboxOrbs > Config.experience.maxOrbs) {
                 await msg.channel.send(Lang.msg.invalidOrbCount);
                 return;
             }
@@ -162,7 +162,7 @@ export class CommandService {
         let displayName = member.displayName;
 
         let claimedOrbsString = newClaimedOrbs.toLocaleString();
-        let unclaimedOrbsString = newUnclaimedOrbs.toLocaleString();
+        let inboxOrbsString = newInboxOrbs.toLocaleString();
 
         let newDisplayname = displayName;
 
@@ -173,18 +173,15 @@ export class CommandService {
             newDisplayname = `${newDisplayname} (${claimedOrbsString})`;
         }
 
-        if (newUnclaimedOrbs >= 0) {
-            let currentUnclaimedOrbs = RegexUtils.extractUnclaimedOrbs(newDisplayname);
-            if (currentUnclaimedOrbs) {
-                newDisplayname = RegexUtils.replaceUnclaimedOrbs(
-                    newDisplayname,
-                    unclaimedOrbsString
-                );
+        if (newInboxOrbs >= 0) {
+            let currentInboxOrbs = RegexUtils.extractInboxOrbs(newDisplayname);
+            if (currentInboxOrbs) {
+                newDisplayname = RegexUtils.replaceInboxOrbs(newDisplayname, inboxOrbsString);
             } else {
-                newDisplayname = RegexUtils.addUnclaimedOrbs(newDisplayname, unclaimedOrbsString);
+                newDisplayname = RegexUtils.addInboxOrbs(newDisplayname, inboxOrbsString);
             }
         } else {
-            newDisplayname = RegexUtils.removeUnclaimedOrbs(newDisplayname);
+            newDisplayname = RegexUtils.removeInboxOrbs(newDisplayname);
         }
 
         if (newDisplayname.length > 32) {
@@ -195,11 +192,11 @@ export class CommandService {
         this.memberRepo.setLastSetTime(msg.guild.id, msg.author.id, new Date().toISOString());
         msg.member.setNickname(newDisplayname);
 
-        if (newUnclaimedOrbs > 0) {
+        if (newInboxOrbs > 0) {
             await msg.channel.send(
-                Lang.msg.updatedUnclaimedOrbCount
+                Lang.msg.updatedInboxOrbCount
                     .replace('{CLAIMED_ORBS}', claimedOrbsString)
-                    .replace('{UNCLAIMED_ORBS}', unclaimedOrbsString)
+                    .replace('{INBOX_ORBS}', inboxOrbsString)
             );
         } else {
             await msg.channel.send(

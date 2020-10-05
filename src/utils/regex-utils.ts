@@ -12,7 +12,7 @@ export abstract class RegexUtils {
         }
     }
 
-    public static extractUnclaimedOrbs(input: string): number {
+    public static extractInboxOrbs(input: string): number {
         let match = ORB_COUNT_REGEX.exec(input);
         if (match && match[8]) {
             return parseInt(match[8].replace(/,/g, ''));
@@ -27,9 +27,9 @@ export abstract class RegexUtils {
 
         let totalOrbs = claimedOrbs;
 
-        let unclaimedOrbs = this.extractUnclaimedOrbs(input);
-        if (unclaimedOrbs) {
-            totalOrbs += unclaimedOrbs;
+        let inboxOrbs = this.extractInboxOrbs(input);
+        if (inboxOrbs) {
+            totalOrbs += inboxOrbs;
         }
 
         return totalOrbs;
@@ -44,20 +44,20 @@ export abstract class RegexUtils {
         return input.replace(ORB_COUNT_REGEX, `$1$2$3${claimedOrbs}$6$7$8$9$10$11`);
     }
 
-    public static replaceUnclaimedOrbs(input: string, unclaimedOrbs: string): string {
-        let oldUnclaimedOrbs = this.extractUnclaimedOrbs(input);
-        if (oldUnclaimedOrbs == null) {
+    public static replaceInboxOrbs(input: string, inboxOrbs: string): string {
+        let oldInboxOrbs = this.extractInboxOrbs(input);
+        if (oldInboxOrbs == null) {
             return input;
         }
 
-        return input.replace(ORB_COUNT_REGEX, `$1$2$3$4$6$7${unclaimedOrbs}$9$10$11`);
+        return input.replace(ORB_COUNT_REGEX, `$1$2$3$4$6$7${inboxOrbs}$9$10$11`);
     }
 
-    public static addUnclaimedOrbs(input: string, unclaimedOrbs: string): string {
-        return input.replace(ORB_COUNT_REGEX, `$1$2$3$4$6+${unclaimedOrbs}$9$10$11`);
+    public static addInboxOrbs(input: string, inboxOrbs: string): string {
+        return input.replace(ORB_COUNT_REGEX, `$1$2$3$4$6+${inboxOrbs}$9$10$11`);
     }
 
-    public static removeUnclaimedOrbs(input: string): string {
+    public static removeInboxOrbs(input: string): string {
         return input.replace(ORB_COUNT_REGEX, `$1$2$3$4$6$9$10$11`);
     }
 }
