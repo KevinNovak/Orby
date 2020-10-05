@@ -7,6 +7,7 @@ let Config = require('../../config/config.json');
 let Lang = require('../../lang/lang.json');
 
 const MAX_MESSAGE_LENGTH = 2000;
+const MAX_NICKNAME_LENGTH = 32;
 
 export class CommandService {
     constructor(private memberRepo: MemberRepo) {}
@@ -181,7 +182,7 @@ export class CommandService {
             displayName = RegexUtils.removeInboxOrbs(displayName);
         }
 
-        if (displayName.length > 32) {
+        if (displayName.length > MAX_NICKNAME_LENGTH) {
             await msg.channel.send(Lang.msg.nicknameTooLong);
             return;
         }
