@@ -1,0 +1,20 @@
+{
+    "info": {
+        "started": "Application started.",
+        "launchedShard": "Launched Shard {SHARD_ID}.",
+        "login": "Logged in as '{USER_TAG}'!",
+        "guildJoined": "Guild '{GUILD_NAME}' ({GUILD_ID}) joined.",
+        "guildLeft": "Guild '{GUILD_NAME}' ({GUILD_ID}) left."
+    },
+    "warn": {
+        "noShards": "No shards to spawn."
+    },
+    "error": {
+        "retrieveShardCount": "An error occurred while retrieving the recommended shard count.",
+        "spawnShard": "An error occurred while spawning shards.",
+        "login": "An error occurred while the client attempted to login.",
+        "guildJoin": "An error occurred while processing a guild join.",
+        "guildLeave": "An error occurred while processing a guild leave.",
+        "message": "An error occurred while processing a message."
+    }
+}

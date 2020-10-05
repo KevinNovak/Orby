@@ -1,9 +1,35 @@
 {
-    "token": "<YOUR_DISCORD_BOT_TOKEN>",
-    "topPageSize": 25,
-    "maxOrbs": 1000000,
-    "expireDays": 14,
-    "owners": ["<YOUR_DISCORD_ID>"],
-    "bannedServers": ["<BANNED_SERVER_ID>"],
-    "intents": ["GUILDS", "GUILD_MEMBERS", "GUILD_PRESENCES", "GUILD_MESSAGES", "DIRECT_MESSAGES"]
+    "prefix": "-orb",
+    "client": {
+        "token": "<DISCORD_BOT_TOKEN>",
+        "intents": [
+            "GUILDS",
+            "GUILD_MEMBERS",
+            "GUILD_PRESENCES",
+            "GUILD_MESSAGES",
+            "DIRECT_MESSAGES"
+        ],
+        "partials": [],
+        "caches": {
+            "messages": {
+                "size": 1,
+                "lifetime": 60,
+                "sweepInterval": 30
+            }
+        }
+    },
+    "experience": {
+        "topPageSize": 25,
+        "maxOrbs": 1000000,
+        "expireDays": 14,
+        "owners": ["<YOUR_DISCORD_ID>"],
+        "bannedServers": ["<BANNED_SERVER_ID>"]
+    },
+    "sharding": {
+        "machineId": 0,
+        "machineCount": 1,
+        "serversPerShard": 1000,
+        "spawnDelay": 5,
+        "spawnTimeout": 300
+    }
 }
