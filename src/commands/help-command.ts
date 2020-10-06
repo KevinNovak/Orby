@@ -18,8 +18,8 @@ export class HelpCommand implements Command {
     ): Promise<void> {
         let embed = new MessageEmbed()
             .setColor(Config.colors.default)
-            .setTitle(Lang.msg.helpTitle)
-            .setDescription(Lang.msg.help.join('\n'));
+            .setTitle(Lang.helpTitle)
+            .setDescription(Lang.help.join('\n'));
 
         await MessageUtils.send(channel, embed);
     }

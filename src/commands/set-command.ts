@@ -22,24 +22,24 @@ export class SetCommand implements Command {
         channel: DMChannel | TextChannel
     ): Promise<void> {
         if (!msg.guild) {
-            await MessageUtils.send(channel, Lang.msg.notAllowedInDm);
+            await MessageUtils.send(channel, Lang.notAllowedInDm);
             return;
         }
 
         if (args.length < 3) {
-            await MessageUtils.send(channel, Lang.msg.noOrbCountProvided);
+            await MessageUtils.send(channel, Lang.noOrbCountProvided);
             return;
         }
 
         let claimedOrbsInput = args[2];
         if (isNaN(+claimedOrbsInput)) {
-            await MessageUtils.send(channel, Lang.msg.invalidOrbCount);
+            await MessageUtils.send(channel, Lang.invalidOrbCount);
             return;
         }
 
         let claimedOrbs = parseInt(claimedOrbsInput);
         if (claimedOrbs < 0 || claimedOrbs > Config.experience.maxOrbs) {
-            await MessageUtils.send(channel, Lang.msg.invalidOrbCount);
+            await MessageUtils.send(channel, Lang.invalidOrbCount);
             return;
         }
 
@@ -47,13 +47,13 @@ export class SetCommand implements Command {
         if (args.length >= 4) {
             let inboxOrbsInput = args[3];
             if (isNaN(+inboxOrbsInput)) {
-                await MessageUtils.send(channel, Lang.msg.invalidOrbCount);
+                await MessageUtils.send(channel, Lang.invalidOrbCount);
                 return;
             }
 
             inboxOrbs = parseInt(inboxOrbsInput);
             if (inboxOrbs < 0 || inboxOrbs > Config.experience.maxOrbs) {
-                await MessageUtils.send(channel, Lang.msg.invalidOrbCount);
+                await MessageUtils.send(channel, Lang.invalidOrbCount);
                 return;
             }
         }
@@ -64,17 +64,17 @@ export class SetCommand implements Command {
         }
 
         if (!msg.guild.me.hasPermission('MANAGE_NICKNAMES')) {
-            await MessageUtils.send(channel, Lang.msg.noPermissionChangeNickname);
+            await MessageUtils.send(channel, Lang.noPermissionChangeNickname);
             return;
         }
 
         if (msg.member.id === msg.guild.owner.id) {
-            await MessageUtils.send(channel, Lang.msg.cantUpdateOwnerNickname);
+            await MessageUtils.send(channel, Lang.cantUpdateOwnerNickname);
             return;
         }
 
         if (msg.guild.me.roles.highest.position <= msg.member.roles.highest.position) {
-            await MessageUtils.send(channel, Lang.msg.cantUpdateYourRole);
+            await MessageUtils.send(channel, Lang.cantUpdateYourRole);
             return;
         }
 
@@ -102,7 +102,7 @@ export class SetCommand implements Command {
         }
 
         if (displayName.length > MAX_NICKNAME_LENGTH) {
-            await MessageUtils.send(channel, Lang.msg.nicknameTooLong);
+            await MessageUtils.send(channel, Lang.nicknameTooLong);
             return;
         }
 
@@ -111,13 +111,13 @@ export class SetCommand implements Command {
 
         if (inboxOrbs > 0) {
             await msg.channel.send(
-                Lang.msg.updatedInboxOrbCount
+                Lang.updatedInboxOrbCount
                     .replace('{CLAIMED_ORBS}', claimedOrbsString)
                     .replace('{INBOX_ORBS}', inboxOrbsString)
             );
         } else {
             await msg.channel.send(
-                Lang.msg.updatedClaimedOrbCount.replace('{CLAIMED_ORBS}', claimedOrbsString)
+                Lang.updatedClaimedOrbCount.replace('{CLAIMED_ORBS}', claimedOrbsString)
             );
         }
     }

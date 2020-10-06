@@ -57,7 +57,7 @@ export class Bot {
         // Set presence
         this.client.user.setPresence({
             activity: {
-                name: Lang.msg.presence,
+                name: Lang.presence,
                 type: 'PLAYING',
             },
         });

@@ -21,7 +21,7 @@ export class TopCommand implements Command {
         channel: DMChannel | TextChannel
     ): Promise<void> {
         if (!msg.guild) {
-            await MessageUtils.send(channel, Lang.msg.notAllowedInDm);
+            await MessageUtils.send(channel, Lang.notAllowedInDm);
             return;
         }
 
@@ -69,7 +69,7 @@ export class TopCommand implements Command {
         for (let [index, data] of orbData.entries()) {
             let rank = index + 1;
             lines.push(
-                Lang.msg.topFormat
+                Lang.topFormat
                     .replace('{MEMBER_RANK}', rank.toLocaleString())
                     .replace('{ORB_COUNT}', data.orbCount.toLocaleString())
                     .replace('{MEMBER_NAME}', data.displayName)
@@ -90,9 +90,7 @@ export class TopCommand implements Command {
 
         const embed = new MessageEmbed()
             .setColor(Config.colors.default)
-            .setTitle(
-                topType === 'INBOX' ? Lang.msg.topSaversInboxTitle : Lang.msg.topSaversOverallTitle
-            )
+            .setTitle(topType === 'INBOX' ? Lang.topSaversInboxTitle : Lang.topSaversOverallTitle)
             .setDescription(description)
             .setFooter(footer);
 
