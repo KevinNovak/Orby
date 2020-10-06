@@ -1,7 +1,7 @@
 import { DMChannel, Message, TextChannel } from 'discord.js';
 
 import { MemberRepo } from '../repos';
-import { RegexUtils } from '../utils';
+import { MessageUtils, RegexUtils } from '../utils';
 import { Command } from './command';
 
 let Config = require('../../config/config.json');
@@ -22,24 +22,24 @@ export class SetCommand implements Command {
         channel: DMChannel | TextChannel
     ): Promise<void> {
         if (!msg.guild) {
-            await msg.channel.send(Lang.msg.notAllowedInDm);
+            await MessageUtils.send(channel, Lang.msg.notAllowedInDm);
             return;
         }
 
         if (args.length < 3) {
-            await msg.channel.send(Lang.msg.noOrbCountProvided);
+            await MessageUtils.send(channel, Lang.msg.noOrbCountProvided);
             return;
         }
 
         let claimedOrbsInput = args[2];
         if (isNaN(+claimedOrbsInput)) {
-            await msg.channel.send(Lang.msg.invalidOrbCount);
+            await MessageUtils.send(channel, Lang.msg.invalidOrbCount);
             return;
         }
 
         let claimedOrbs = parseInt(claimedOrbsInput);
         if (claimedOrbs < 0 || claimedOrbs > Config.experience.maxOrbs) {
-            await msg.channel.send(Lang.msg.invalidOrbCount);
+            await MessageUtils.send(channel, Lang.msg.invalidOrbCount);
             return;
         }
 
@@ -47,13 +47,13 @@ export class SetCommand implements Command {
         if (args.length >= 4) {
             let inboxOrbsInput = args[3];
             if (isNaN(+inboxOrbsInput)) {
-                await msg.channel.send(Lang.msg.invalidOrbCount);
+                await MessageUtils.send(channel, Lang.msg.invalidOrbCount);
                 return;
             }
 
             inboxOrbs = parseInt(inboxOrbsInput);
             if (inboxOrbs < 0 || inboxOrbs > Config.experience.maxOrbs) {
-                await msg.channel.send(Lang.msg.invalidOrbCount);
+                await MessageUtils.send(channel, Lang.msg.invalidOrbCount);
                 return;
             }
         }
@@ -64,17 +64,17 @@ export class SetCommand implements Command {
         }
 
         if (!msg.guild.me.hasPermission('MANAGE_NICKNAMES')) {
-            await msg.channel.send(Lang.msg.noPermissionChangeNickname);
+            await MessageUtils.send(channel, Lang.msg.noPermissionChangeNickname);
             return;
         }
 
         if (msg.member.id === msg.guild.owner.id) {
-            await msg.channel.send(Lang.msg.cantUpdateOwnerNickname);
+            await MessageUtils.send(channel, Lang.msg.cantUpdateOwnerNickname);
             return;
         }
 
         if (msg.guild.me.roles.highest.position <= msg.member.roles.highest.position) {
-            await msg.channel.send(Lang.msg.cantUpdateYourRole);
+            await MessageUtils.send(channel, Lang.msg.cantUpdateYourRole);
             return;
         }
 
@@ -102,7 +102,7 @@ export class SetCommand implements Command {
         }
 
         if (displayName.length > MAX_NICKNAME_LENGTH) {
-            await msg.channel.send(Lang.msg.nicknameTooLong);
+            await MessageUtils.send(channel, Lang.msg.nicknameTooLong);
             return;
         }
 

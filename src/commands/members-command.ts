@@ -1,5 +1,6 @@
 import { DMChannel, GuildMember, Message, MessageEmbed, TextChannel } from 'discord.js';
 
+import { MessageUtils } from '../utils';
 import { Command } from './command';
 
 const MAX_MESSAGE_LENGTH = 2000;
@@ -21,14 +22,14 @@ export class MembersCommand implements Command {
                     '**-orb members <server ID>** - Export server members. Ex: `-orb members 608826491068743690`'
                 );
 
-            await msg.channel.send(embed);
+            await MessageUtils.send(channel, embed);
             return;
         }
 
         let guildId = args[2];
         let guild = msg.client.guilds.resolve(guildId);
         if (!guild) {
-            await msg.channel.send(`Could not find a server with the ID "${guildId}".`);
+            await MessageUtils.send(channel, `Could not find a server with the ID "${guildId}".`);
             return;
         }
 
@@ -42,13 +43,13 @@ export class MembersCommand implements Command {
                 .join(', ')}`;
             line += '\n';
             if (message.length + line.length > MAX_MESSAGE_LENGTH) {
-                await msg.channel.send(message);
+                await MessageUtils.send(channel, message);
                 message = '';
             }
             message += line;
         }
         if (message.length > 1) {
-            await msg.channel.send(message);
+            await MessageUtils.send(channel, message);
         }
     }
 

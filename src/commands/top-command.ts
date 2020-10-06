@@ -2,7 +2,7 @@ import { Collection, DMChannel, GuildMember, Message, MessageEmbed, TextChannel 
 
 import { OrbData } from '../models/internal-models';
 import { MemberRepo } from '../repos';
-import { ArrayUtils, MathUtils, RegexUtils } from '../utils';
+import { ArrayUtils, MathUtils, MessageUtils, RegexUtils } from '../utils';
 import { Command } from './command';
 
 let Config = require('../../config/config.json');
@@ -21,7 +21,7 @@ export class TopCommand implements Command {
         channel: DMChannel | TextChannel
     ): Promise<void> {
         if (!msg.guild) {
-            await msg.channel.send(Lang.msg.notAllowedInDm);
+            await MessageUtils.send(channel, Lang.msg.notAllowedInDm);
             return;
         }
 
@@ -96,7 +96,7 @@ export class TopCommand implements Command {
             .setDescription(description)
             .setFooter(footer);
 
-        await msg.channel.send(embed);
+        await MessageUtils.send(channel, embed);
     }
 
     private compareOrbCounts(a: OrbData, b: OrbData): number {

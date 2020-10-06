@@ -41,7 +41,7 @@ export class MessageHandler {
             // No permission to send message
             if (PermissionUtils.canSend(channel)) {
                 let message = `I don't have all permissions required to send messages here!\n\nPlease allow me to **Read Messages**, **Send Messages**, and **Embed Links** in this channel.`;
-                await channel.send(message);
+                await MessageUtils.send(channel, message);
             }
             return;
         }

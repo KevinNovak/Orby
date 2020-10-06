@@ -1,5 +1,6 @@
 import { DMChannel, Message, MessageEmbed, TextChannel } from 'discord.js';
 
+import { MessageUtils } from '../utils';
 import { Command } from './command';
 
 export class SayCommand implements Command {
@@ -19,32 +20,35 @@ export class SayCommand implements Command {
                     '**-orb say <server ID> <channel ID> <message>** - Make Orby send a message! Ex: `-orb say 608826491068743690 609767721395290130 Hello world!`'
                 );
 
-            await msg.channel.send(embed);
+            await MessageUtils.send(channel, embed);
             return;
         }
 
         let guildId = args[2];
         let guild = msg.client.guilds.resolve(guildId);
         if (!guild) {
-            await msg.channel.send(`Could not find a server with the ID "${guildId}".`);
+            await MessageUtils.send(channel, `Could not find a server with the ID "${guildId}".`);
             return;
         }
 
         let channelId = args[3];
         let targetChannel = guild.channels.resolve(channelId);
         if (!targetChannel) {
-            await msg.channel.send(`Could not find a channel with the ID "${channelId}".`);
+            await MessageUtils.send(
+                channel,
+                `Could not find a channel with the ID "${channelId}".`
+            );
             return;
         }
 
         if (!(targetChannel instanceof TextChannel)) {
-            await msg.channel.send(`Channel is not a text channel!`);
+            await MessageUtils.send(channel, `Channel is not a text channel!`);
             return;
         }
 
         let message = args.slice(4).join(' ');
-        await targetChannel.send(message);
+        await MessageUtils.send(targetChannel, message);
 
-        await msg.channel.send('Message sent!');
+        await MessageUtils.send(channel, 'Message sent!');
     }
 }
