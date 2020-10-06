@@ -1,7 +1,14 @@
 import { Client } from 'discord.js';
 
 import { Bot } from './bot';
-import { HelpCommand, MembersCommand, SayCommand, SetCommand, TopCommand } from './commands';
+import {
+    HelpCommand,
+    InfoCommand,
+    MembersCommand,
+    SayCommand,
+    SetCommand,
+    TopCommand,
+} from './commands';
 import { GuildJoinHandler, GuildLeaveHandler, MessageHandler } from './events';
 import { MemberRepo } from './repos';
 import { Logger } from './services';
@@ -22,6 +29,7 @@ async function start(): Promise<void> {
 
     // Commands
     let helpCommand = new HelpCommand();
+    let infoCommand = new InfoCommand();
     let membersCommand = new MembersCommand();
     let sayCommand = new SayCommand();
     let setCommand = new SetCommand(memberRepo);
@@ -31,6 +39,7 @@ async function start(): Promise<void> {
     let guildJoinHandler = new GuildJoinHandler(memberRepo);
     let guildLeaveHandler = new GuildLeaveHandler();
     let messageHandler = new MessageHandler(Config.prefix, helpCommand, [
+        infoCommand,
         membersCommand,
         sayCommand,
         setCommand,
