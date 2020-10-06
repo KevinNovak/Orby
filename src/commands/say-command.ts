@@ -3,6 +3,8 @@ import { DMChannel, Message, MessageEmbed, TextChannel } from 'discord.js';
 import { MessageUtils } from '../utils';
 import { Command } from './command';
 
+let Config = require('../../config/config.json');
+
 export class SayCommand implements Command {
     public name = 'say';
     public aliases = ['talk', 'speak'];
@@ -15,7 +17,7 @@ export class SayCommand implements Command {
     ): Promise<void> {
         if (args.length < 5) {
             const embed = new MessageEmbed()
-                .setColor('#0099ff')
+                .setColor(Config.colors.default)
                 .setDescription(
                     '**-orb say <server ID> <channel ID> <message>** - Make Orby send a message! Ex: `-orb say 608826491068743690 609767721395290130 Hello world!`'
                 );

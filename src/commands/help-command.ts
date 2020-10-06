@@ -3,6 +3,7 @@ import { DMChannel, Message, MessageEmbed, TextChannel } from 'discord.js';
 import { MessageUtils } from '../utils';
 import { Command } from './command';
 
+let Config = require('../../config/config.json');
 let Lang = require('../../lang/lang.json');
 
 export class HelpCommand implements Command {
@@ -16,7 +17,7 @@ export class HelpCommand implements Command {
         channel: DMChannel | TextChannel
     ): Promise<void> {
         let embed = new MessageEmbed()
-            .setColor('#0099ff')
+            .setColor(Config.colors.default)
             .setTitle(Lang.msg.helpTitle)
             .setDescription(Lang.msg.help.join('\n'));
 

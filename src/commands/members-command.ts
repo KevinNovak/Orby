@@ -3,6 +3,8 @@ import { DMChannel, GuildMember, Message, MessageEmbed, TextChannel } from 'disc
 import { MessageUtils } from '../utils';
 import { Command } from './command';
 
+let Config = require('../../config/config.json');
+
 const MAX_MESSAGE_LENGTH = 2000;
 
 export class MembersCommand implements Command {
@@ -17,7 +19,7 @@ export class MembersCommand implements Command {
     ): Promise<void> {
         if (args.length < 3) {
             const embed = new MessageEmbed()
-                .setColor('#0099ff')
+                .setColor(Config.colors.default)
                 .setDescription(
                     '**-orb members <server ID>** - Export server members. Ex: `-orb members 608826491068743690`'
                 );

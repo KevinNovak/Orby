@@ -89,7 +89,7 @@ export class TopCommand implements Command {
         let footer = `Page ${page.toLocaleString()} of ${maxPage.toLocaleString()}`;
 
         const embed = new MessageEmbed()
-            .setColor('#0099ff')
+            .setColor(Config.colors.default)
             .setTitle(
                 topType === 'INBOX' ? Lang.msg.topSaversInboxTitle : Lang.msg.topSaversOverallTitle
             )
