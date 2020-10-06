@@ -25,6 +25,10 @@
         "owners": ["<YOUR_DISCORD_ID>"],
         "bannedServers": ["<BANNED_SERVER_ID>"]
     },
+    "colors": {
+        "default": "0x0099ff",
+        "error": "0xff4a4a"
+    },
     "sharding": {
         "machineId": 0,
         "machineCount": 1,
