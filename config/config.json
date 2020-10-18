@@ -26,8 +26,8 @@
         "bannedServers": ["<BANNED_SERVER_ID>"]
     },
     "colors": {
-        "default": "0x0099ff",
-        "error": "0xff4a4a"
+        "default": "#0099ff",
+        "error": "#ff4a4a"
     },
     "sharding": {
         "machineId": 0,
