@@ -18,7 +18,7 @@
         "build": "tsc"
     },
     "dependencies": {
-        "discord.js": "12.3.1",
+        "discord.js": "12.4.0",
         "lowdb": "1.0.0",
         "mkdirp": "1.0.4",
         "pm2": "^4.5.0"
