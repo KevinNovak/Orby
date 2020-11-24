@@ -1,4 +1,5 @@
 import { DMChannel, Message, MessageEmbed, TextChannel } from 'discord.js';
+import { RateLimiter } from 'discord.js-rate-limiter';
 
 import { Command } from '../commands';
 import { MessageUtils, PermissionUtils } from '../utils';
@@ -6,6 +7,11 @@ import { MessageUtils, PermissionUtils } from '../utils';
 let Config = require('../../config/config.json');
 
 export class MessageHandler {
+    private rateLimiter = new RateLimiter(
+        Config.rateLimiting.commands.amount,
+        Config.rateLimiting.commands.interval * 1000
+    );
+
     constructor(
         private prefix: string,
         private helpCommand: Command,
@@ -37,6 +43,12 @@ export class MessageHandler {
                 args[0].toLowerCase()
             )
         ) {
+            return;
+        }
+
+        // Check if user is rate limited
+        let limited = this.rateLimiter.take(msg.author.id);
+        if (limited) {
             return;
         }
 

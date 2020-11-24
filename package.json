@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "discord.js": "12.5.0",
+        "discord.js-rate-limiter": "1.0.2",
         "lowdb": "1.0.0",
         "mkdirp": "1.0.4",
         "pm2": "^4.5.0"

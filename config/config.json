@@ -18,6 +18,12 @@
             }
         }
     },
+    "rateLimiting": {
+        "commands": {
+            "amount": 10,
+            "interval": 30
+        }
+    },
     "experience": {
         "topPageSize": 25,
         "maxOrbs": 1000000,
