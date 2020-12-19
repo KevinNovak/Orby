@@ -25,7 +25,7 @@
         }
     },
     "experience": {
-        "topPageSize": 25,
+        "topPageSize": 10,
         "maxOrbs": 1000000,
         "expireDays": 14,
         "owners": ["<YOUR_DISCORD_ID>"],
