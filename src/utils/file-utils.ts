@@ -2,7 +2,7 @@ import fs from 'fs';
 import mkdirp from 'mkdirp';
 import path from 'path';
 
-export abstract class FileUtils {
+export class FileUtils {
     public static getFullPath(shortPath: string): string {
         return path.join(__dirname, shortPath);
     }

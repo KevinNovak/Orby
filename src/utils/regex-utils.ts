@@ -1,6 +1,6 @@
 const ORB_COUNT_REGEX = /(.*)([\[\(\{]{1})([^-0-9,]*)([-]?\d{1,3}(?:,\d{3}|\d+)*(?:\.\d+)?)(([^-0-9,]*)([+][^-0-9,]*)([-]?\d{1,3}(?:,\d{3}|\d+)*(?:\.\d+)?))?(.*)([\]\)\}]{1})(.*)/;
 
-export abstract class RegexUtils {
+export class RegexUtils {
     public static containsOrbs(input: string): boolean {
         return ORB_COUNT_REGEX.test(input);
     }
