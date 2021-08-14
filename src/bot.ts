@@ -30,7 +30,7 @@ export class Bot {
         this.client.on('shardReady', (shardId: number) => this.onShardReady(shardId));
         this.client.on('guildCreate', (guild: Guild) => this.onGuildJoin(guild));
         this.client.on('guildDelete', (guild: Guild) => this.onGuildLeave(guild));
-        this.client.on('message', (msg: Message) => this.onMessage(msg));
+        this.client.on('messageCreate', (msg: Message) => this.onMessage(msg));
     }
 
     private async login(token: string): Promise<void> {
