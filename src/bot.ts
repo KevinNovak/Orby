@@ -47,7 +47,7 @@ export class Bot {
         Logger.info(Logs.info.login.replace('{USER_TAG}', userTag));
 
         // Leave banned guilds
-        for (let guild of this.client.guilds.cache.array()) {
+        for (let guild of [...this.client.guilds.cache.values()]) {
             if (Config.experience.bannedServers.includes(guild.id)) {
                 await guild.leave();
                 console.info(`Left banned guild '${guild.name}' (${guild.id})!`);
@@ -56,13 +56,15 @@ export class Bot {
 
         // Set presence
         this.client.user.setPresence({
-            activity: {
-                name: Lang.presence,
-                type: 'PLAYING',
-            },
+            activities: [
+                {
+                    type: 'PLAYING',
+                    name: Lang.presence,
+                },
+            ],
         });
 
-        this.memberRepo.connectGuilds(this.client.guilds.cache.keyArray());
+        this.memberRepo.connectGuilds([...this.client.guilds.cache.keys()]);
 
         this.ready = true;
     }

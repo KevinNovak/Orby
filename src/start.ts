@@ -1,4 +1,4 @@
-import { Client } from 'discord.js';
+import { Client, Options } from 'discord.js';
 
 import { Bot } from './bot';
 import {
@@ -17,11 +17,14 @@ let Config = require('../config/config.json');
 
 async function start(): Promise<void> {
     let client = new Client({
-        ws: { intents: Config.client.intents },
+        intents: Config.client.intents,
         partials: Config.client.partials,
-        messageCacheMaxSize: Config.client.caches.messages.size,
-        messageCacheLifetime: Config.client.caches.messages.lifetime,
-        messageSweepInterval: Config.client.caches.messages.sweepInterval,
+        makeCache: Options.cacheWithLimits({
+            // Keep default caching behavior
+            ...Options.defaultMakeCacheSettings,
+            // Override specific options from config
+            ...Config.caches,
+        }),
     });
 
     // Repos

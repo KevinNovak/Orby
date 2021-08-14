@@ -11,11 +11,11 @@ export class Manager {
     public async start(): Promise<void> {
         this.registerListeners();
         try {
-            await this.shardManager.spawn(
-                this.shardManager.totalShards,
-                Config.sharding.spawnDelay * 1000,
-                Config.sharding.spawnTimeout * 1000
-            );
+            await this.shardManager.spawn({
+                amount: this.shardManager.totalShards,
+                delay: Config.sharding.spawnDelay * 1000,
+                timeout: Config.sharding.spawnTimeout * 1000,
+            });
         } catch (error) {
             Logger.error(Logs.error.spawnShard, error);
             return;

@@ -63,12 +63,12 @@ export class SetCommand implements Command {
             return;
         }
 
-        if (!msg.guild.me.hasPermission('MANAGE_NICKNAMES')) {
+        if (!msg.guild.me.permissions.has('MANAGE_NICKNAMES')) {
             await MessageUtils.send(channel, Lang.noPermissionChangeNickname);
             return;
         }
 
-        if (msg.member.id === msg.guild.owner.id) {
+        if (msg.member.id === msg.guild.ownerId) {
             await MessageUtils.send(channel, Lang.cantUpdateOwnerNickname);
             return;
         }

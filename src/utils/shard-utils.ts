@@ -5,7 +5,9 @@ export class ShardUtils {
         token: string,
         serversPerShard: number
     ): Promise<number> {
-        return Math.ceil(await Util.fetchRecommendedShards(token, serversPerShard));
+        return Math.ceil(
+            await Util.fetchRecommendedShards(token, { guildsPerShard: serversPerShard })
+        );
     }
 
     public static getMyShardIds(
@@ -25,9 +27,9 @@ export class ShardUtils {
     public static async retrieveServerCount(
         shardInterface: ShardingManager | ShardClientUtil
     ): Promise<number> {
-        let shardGuildCounts: number[] = await shardInterface.fetchClientValues(
+        let shardGuildCounts = (await shardInterface.fetchClientValues(
             'guilds.cache.size'
-        );
+        )) as number[];
         return shardGuildCounts.reduce((prev, val) => prev + val, 0);
     }
 }

@@ -36,7 +36,7 @@ export class MemberRepo {
                                 new Date(savedMember.lastSetTime),
                                 Config.experience.expireDays
                             )
-                ) || member.id === guild.ownerID
+                ) || member.id === guild.ownerId
         );
         return activeMembers;
     }

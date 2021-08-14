@@ -11,11 +11,16 @@
         ],
         "partials": [],
         "caches": {
-            "messages": {
-                "size": 1,
-                "lifetime": 60,
-                "sweepInterval": 30
-            }
+            "BaseGuildEmojiManager": 0,
+            "GuildBanManager": 0,
+            "GuildInviteManager": 0,
+            "GuildStickerManager": 0,
+            "MessageManager": 0,
+            "PresenceManager": 0,
+            "StageInstanceManager": 0,
+            "ThreadManager": 0,
+            "ThreadMemberManager": 0,
+            "VoiceStateManager": 0
         }
     },
     "rateLimiting": {
