@@ -1,41 +1,59 @@
-import { Collection, DMChannel, GuildMember, Message, MessageEmbed, TextChannel } from 'discord.js';
+import {
+    ApplicationCommandData,
+    Collection,
+    CommandInteraction,
+    GuildMember,
+    MessageEmbed,
+} from 'discord.js';
 
-import { OrbData } from '../models/internal-models';
+import { EventData, OrbData } from '../models/internal-models';
 import { MemberRepo } from '../repos';
 import { ArrayUtils, MathUtils, MessageUtils, RegexUtils } from '../utils';
 import { Command } from './command';
 
 let Config = require('../../config/config.json');
-let Lang = require('../../lang/lang.json');
 
 export class TopCommand implements Command {
-    public name = 'top';
-    public aliases = ['t'];
+    public static data: ApplicationCommandData = {
+        name: 'top',
+        description: 'Show the top orb savers.',
+        options: [
+            {
+                name: 'type',
+                description: 'Type of orbs.',
+                required: false,
+                type: 3, // String
+                choices: [
+                    {
+                        name: 'overall',
+                        value: 'OVERALL',
+                    },
+                    {
+                        name: 'inbox',
+                        value: 'INBOX',
+                    },
+                ],
+            },
+            {
+                name: 'page',
+                description: 'Page number.',
+                required: false,
+                type: 4, // Integer
+            },
+        ],
+    };
+    public name = TopCommand.data.name;
     public requireGuild = true;
+    public requirePerms = [];
 
     constructor(private memberRepo: MemberRepo) {}
 
-    public async execute(
-        args: string[],
-        msg: Message,
-        channel: DMChannel | TextChannel
-    ): Promise<void> {
-        if (!msg.guild) {
-            await MessageUtils.send(channel, Lang.notAllowedInDm);
-            return;
-        }
-
-        let topType = 'OVERALL';
-
-        if (args.length >= 3) {
-            if (args[2].toUpperCase() === 'INBOX') {
-                topType = 'INBOX';
-            }
-        }
+    public async execute(intr: CommandInteraction, data: EventData): Promise<void> {
+        let topType = intr.options.getString('type') ?? 'OVERALL';
 
         let members: Collection<string, GuildMember>;
         try {
-            members = this.memberRepo.getActiveMembers(msg.guild);
+            members = this.memberRepo.getActiveMembers(intr.guild);
         } catch (error) {
             return;
         }
@@ -69,7 +87,7 @@ export class TopCommand implements Command {
         for (let [index, data] of orbData.entries()) {
             let rank = index + 1;
             lines.push(
-                Lang.topFormat
+                '**{MEMBER_RANK}**. `{ORB_COUNT}` - {MEMBER_NAME}'
                     .replace('{MEMBER_RANK}', rank.toLocaleString())
                     .replace('{ORB_COUNT}', data.orbCount.toLocaleString())
                     .replace('{MEMBER_NAME}', data.displayName)
@@ -78,11 +96,7 @@ export class TopCommand implements Command {
 
         let pageSize = Config.experience.topPageSize;
         let maxPage = Math.ceil(lines.length / pageSize) || 1;
-        let page = MathUtils.clamp(
-            parseInt(topType === 'OVERALL' ? args[2] : args[3]) || 1,
-            1,
-            maxPage
-        );
+        let page = MathUtils.clamp(intr.options.getInteger('page') || 1, 1, maxPage);
 
         let pageLines = ArrayUtils.paginate(lines, pageSize, page);
         let description = pageLines.join('\n') || 'No members!';
@@ -90,11 +104,11 @@ export class TopCommand implements Command {
 
         const embed = new MessageEmbed()
             .setColor(Config.colors.default)
-            .setTitle(topType === 'INBOX' ? Lang.topSaversInboxTitle : Lang.topSaversOverallTitle)
+            .setTitle(topType === 'INBOX' ? 'Top Orb Savers - Inbox' : 'Top Orb Savers - Overall')
             .setDescription(description)
             .setFooter(footer);
 
-        await MessageUtils.send(channel, embed);
+        await MessageUtils.sendIntr(intr, embed);
     }
 
     private compareOrbCounts(a: OrbData, b: OrbData): number {

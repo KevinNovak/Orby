@@ -1,84 +1,74 @@
-import { DMChannel, Message, TextChannel } from 'discord.js';
+import { ApplicationCommandData, CommandInteraction, GuildMember } from 'discord.js';
 
+import { EventData } from '../models/internal-models';
 import { MemberRepo } from '../repos';
 import { MessageUtils, RegexUtils } from '../utils';
 import { Command } from './command';
 
 let Config = require('../../config/config.json');
-let Lang = require('../../lang/lang.json');
 
 const MAX_NICKNAME_LENGTH = 32;
 
 export class SetCommand implements Command {
-    public name = 'set';
-    public aliases = ['s'];
+    public static data: ApplicationCommandData = {
+        name: 'set',
+        description: 'Update your orb count.',
+        options: [
+            {
+                name: 'claimed',
+                description: 'Number of claimed orbs.',
+                required: true,
+                type: 4, // INTEGER
+            },
+            {
+                name: 'inbox',
+                description: 'Number of inbox orbs.',
+                required: false,
+                type: 4, // INTEGER
+            },
+        ],
+    };
+    public name = SetCommand.data.name;
     public requireGuild = true;
+    public requirePerms = [];
 
     constructor(private memberRepo: MemberRepo) {}
 
-    public async execute(
-        args: string[],
-        msg: Message,
-        channel: DMChannel | TextChannel
-    ): Promise<void> {
-        if (!msg.guild) {
-            await MessageUtils.send(channel, Lang.notAllowedInDm);
-            return;
-        }
+    public async execute(intr: CommandInteraction, data: EventData): Promise<void> {
+        let member = intr.member as GuildMember;
 
-        if (args.length < 3) {
-            await MessageUtils.send(channel, Lang.noOrbCountProvided);
-            return;
-        }
-
-        let claimedOrbsInput = args[2];
-        if (isNaN(+claimedOrbsInput)) {
-            await MessageUtils.send(channel, Lang.invalidOrbCount);
-            return;
-        }
-
-        let claimedOrbs = parseInt(claimedOrbsInput);
+        let claimedOrbs = intr.options.getInteger('claimed');
         if (claimedOrbs < 0 || claimedOrbs > Config.experience.maxOrbs) {
-            await MessageUtils.send(channel, Lang.invalidOrbCount);
+            await MessageUtils.sendIntr(intr, 'Please provide a valid orb count.');
             return;
         }
 
         let inboxOrbs = -1;
-        if (args.length >= 4) {
-            let inboxOrbsInput = args[3];
-            if (isNaN(+inboxOrbsInput)) {
-                await MessageUtils.send(channel, Lang.invalidOrbCount);
-                return;
-            }
-
-            inboxOrbs = parseInt(inboxOrbsInput);
+        if (intr.options.getInteger('inbox')) {
+            inboxOrbs = intr.options.getInteger('inbox');
             if (inboxOrbs < 0 || inboxOrbs > Config.experience.maxOrbs) {
-                await MessageUtils.send(channel, Lang.invalidOrbCount);
+                await MessageUtils.sendIntr(intr, 'Please provide a valid orb count.');
                 return;
             }
         }
 
-        // If message came from a member of the guild
-        if (!msg.member) {
+        if (!intr.guild.me.permissions.has('MANAGE_NICKNAMES')) {
+            await MessageUtils.sendIntr(intr, `I don't have permission to change your nickname!`);
             return;
         }
 
-        if (!msg.guild.me.permissions.has('MANAGE_NICKNAMES')) {
-            await MessageUtils.send(channel, Lang.noPermissionChangeNickname);
+        if (member.user.id === intr.guild.ownerId) {
+            await MessageUtils.sendIntr(intr, 'The owners nickname cannot be updated.');
             return;
         }
 
-        if (msg.member.id === msg.guild.ownerId) {
-            await MessageUtils.send(channel, Lang.cantUpdateOwnerNickname);
+        if (intr.guild.me.roles.highest.position <= member.roles.highest.position) {
+            await MessageUtils.sendIntr(
+                intr,
+                `I can't change your nickname because your role is higher than me!`
+            );
             return;
         }
-
-        if (msg.guild.me.roles.highest.position <= msg.member.roles.highest.position) {
-            await MessageUtils.send(channel, Lang.cantUpdateYourRole);
-            return;
-        }
-
-        let member = msg.member;
 
         let claimedOrbsString = claimedOrbs.toLocaleString();
         let inboxOrbsString = inboxOrbs.toLocaleString();
@@ -102,22 +92,30 @@ export class SetCommand implements Command {
         }
 
         if (displayName.length > MAX_NICKNAME_LENGTH) {
-            await MessageUtils.send(channel, Lang.nicknameTooLong);
+            await MessageUtils.sendIntr(
+                intr,
+                'Your new nickname would be too long. Please shorten your nickname.'
+            );
             return;
         }
 
-        this.memberRepo.setLastSetTime(msg.guild.id, msg.author.id, new Date().toISOString());
-        await msg.member.setNickname(displayName);
+        this.memberRepo.setLastSetTime(intr.guild.id, member.user.id, new Date().toISOString());
+        await member.setNickname(displayName);
 
         if (inboxOrbs > 0) {
-            await msg.channel.send(
-                Lang.updatedInboxOrbCount
+            await MessageUtils.sendIntr(
+                intr,
+                'Updated your orb count to {CLAIMED_ORBS} orbs and {INBOX_ORBS} in your inbox!'
                     .replace('{CLAIMED_ORBS}', claimedOrbsString)
                     .replace('{INBOX_ORBS}', inboxOrbsString)
             );
         } else {
-            await msg.channel.send(
-                Lang.updatedClaimedOrbCount.replace('{CLAIMED_ORBS}', claimedOrbsString)
+            await MessageUtils.sendIntr(
+                intr,
+                'Updated your orb count to {CLAIMED_ORBS} orbs!'.replace(
+                    '{CLAIMED_ORBS}',
+                    claimedOrbsString
+                )
             );
         }
     }

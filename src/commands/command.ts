@@ -1,8 +1,9 @@
-import { DMChannel, Message, TextChannel } from 'discord.js';
+import { CommandInteraction, PermissionResolvable } from 'discord.js';
+import { EventData } from '../models/internal-models';
 
 export interface Command {
     name: string;
-    aliases: string[];
     requireGuild: boolean;
-    execute(args: string[], msg: Message, channel: DMChannel | TextChannel): Promise<void>;
+    requirePerms: PermissionResolvable[];
+    execute(intr: CommandInteraction, data: EventData): Promise<void>;
 }

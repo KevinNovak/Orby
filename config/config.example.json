@@ -1,14 +1,8 @@
 {
-    "prefix": "-orb",
     "client": {
+        "id": "<DISCORD_BOT_ID>",
         "token": "<DISCORD_BOT_TOKEN>",
-        "intents": [
-            "GUILDS",
-            "GUILD_MEMBERS",
-            "GUILD_PRESENCES",
-            "GUILD_MESSAGES",
-            "DIRECT_MESSAGES"
-        ],
+        "intents": ["GUILDS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
         "partials": [],
         "caches": {
             "BaseGuildEmojiManager": 0,
@@ -23,8 +17,40 @@
             "VoiceStateManager": 0
         }
     },
+    "api": {
+        "port": 8080,
+        "secret": "00000000-0000-0000-0000-000000000000"
+    },
+    "sharding": {
+        "spawnDelay": 5,
+        "spawnTimeout": 300,
+        "serversPerShard": 1000
+    },
+    "clustering": {
+        "enabled": false,
+        "shardCount": 16,
+        "callbackUrl": "http://localhost:8080/",
+        "masterApi": {
+            "url": "http://localhost:5000/",
+            "token": "00000000-0000-0000-0000-000000000000"
+        }
+    },
+    "jobs": {
+        "updateServerCount": {
+            "schedule": "0 */10 * * * *",
+            "log": false
+        }
+    },
     "rateLimiting": {
         "commands": {
+            "amount": 10,
+            "interval": 30
+        },
+        "triggers": {
+            "amount": 10,
+            "interval": 30
+        },
+        "reactions": {
             "amount": 10,
             "interval": 30
         }
@@ -40,11 +66,10 @@
         "default": "#0099ff",
         "error": "#ff4a4a"
     },
-    "sharding": {
-        "machineId": 0,
-        "machineCount": 1,
-        "serversPerShard": 1000,
-        "spawnDelay": 5,
-        "spawnTimeout": 300
+    "logging": {
+        "pretty": true,
+        "rateLimit": {
+            "minTimeout": 30
+        }
     }
 }

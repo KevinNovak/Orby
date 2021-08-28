@@ -9,5 +9,22 @@
         "editor.formatOnSave": true
     },
     "cSpell.enabled": true,
-    "cSpell.words": ["Novak", "Orby", "parens", "respawn"]
+    "cSpell.words": [
+        "Novak",
+        "bot's",
+        "cmds",
+        "datas",
+        "discordbotlist",
+        "discordjs",
+        "discordlabs",
+        "filesize",
+        "ondiscord",
+        "orby",
+        "parens",
+        "pino",
+        "regexes",
+        "repos",
+        "respawn",
+        "varchar"
+    ]
 }

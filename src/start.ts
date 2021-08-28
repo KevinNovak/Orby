@@ -1,29 +1,32 @@
-import { Client, Options } from 'discord.js';
+import { Options } from 'discord.js';
 
 import { Bot } from './bot';
+import { DevCommand, HelpCommand, SetCommand, TopCommand } from './commands';
 import {
-    HelpCommand,
-    InfoCommand,
-    MembersCommand,
-    SayCommand,
-    SetCommand,
-    TopCommand,
-} from './commands';
-import { GuildJoinHandler, GuildLeaveHandler, MessageHandler } from './events';
+    CommandHandler,
+    GuildJoinHandler,
+    GuildLeaveHandler,
+    MessageHandler,
+    ReactionHandler,
+    TriggerHandler,
+} from './events';
+import { CustomClient } from './extensions';
 import { MemberRepo } from './repos';
-import { Logger } from './services';
+import { JobService, Logger } from './services';
+import { OldCommandTrigger } from './triggers';
 
 let Config = require('../config/config.json');
+let Logs = require('../lang/logs.json');
 
 async function start(): Promise<void> {
-    let client = new Client({
+    let client = new CustomClient({
         intents: Config.client.intents,
         partials: Config.client.partials,
         makeCache: Options.cacheWithLimits({
             // Keep default caching behavior
             ...Options.defaultMakeCacheSettings,
             // Override specific options from config
-            ...Config.caches,
+            ...Config.client.caches,
         }),
     });
 
@@ -31,23 +34,21 @@ async function start(): Promise<void> {
     let memberRepo = new MemberRepo();
 
     // Commands
+    let devCommand = new DevCommand();
     let helpCommand = new HelpCommand();
-    let infoCommand = new InfoCommand();
-    let membersCommand = new MembersCommand();
-    let sayCommand = new SayCommand();
     let setCommand = new SetCommand(memberRepo);
     let topCommand = new TopCommand(memberRepo);
 
-    // Events handlers
+    // Triggers
+    let oldCommandTrigger = new OldCommandTrigger();
+
+    // Event handlers
     let guildJoinHandler = new GuildJoinHandler(memberRepo);
     let guildLeaveHandler = new GuildLeaveHandler();
-    let messageHandler = new MessageHandler(Config.prefix, helpCommand, [
-        infoCommand,
-        membersCommand,
-        sayCommand,
-        setCommand,
-        topCommand,
-    ]);
+    let commandHandler = new CommandHandler([devCommand, helpCommand, setCommand, topCommand]);
+    let triggerHandler = new TriggerHandler([oldCommandTrigger]);
+    let messageHandler = new MessageHandler(triggerHandler);
+    let reactionHandler = new ReactionHandler([]);
 
     let bot = new Bot(
         Config.client.token,
@@ -55,6 +56,9 @@ async function start(): Promise<void> {
         guildJoinHandler,
         guildLeaveHandler,
         messageHandler,
+        commandHandler,
+        reactionHandler,
+        new JobService([]),
         memberRepo
     );
 
@@ -62,7 +66,9 @@ async function start(): Promise<void> {
 }
 
 process.on('unhandledRejection', (reason, promise) => {
-    Logger.error('Unhandled promise rejection.', reason);
+    Logger.error(Logs.error.unhandledRejection, reason);
 });
 
-start();
+start().catch(error => {
+    Logger.error(Logs.error.unspecified, error);
+});
