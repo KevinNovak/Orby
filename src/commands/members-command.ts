@@ -32,7 +32,7 @@ export class MembersCommand implements Command {
             return;
         }
 
-        let members = [...guild.members.cache.values()].sort(this.compareMembers);
+        let members = [...(await guild.members.fetch()).values()].sort(this.compareMembers);
         let message = '';
         for (let member of members) {
             let line = `\`${member.user.tag}\` --- ${member.roles.cache
