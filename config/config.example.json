@@ -4,7 +4,7 @@
         "id": "<DISCORD_BOT_ID>",
         "token": "<DISCORD_BOT_TOKEN>",
         "intents": ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
-        "partials": [],
+        "partials": ["CHANNEL"],
         "caches": {
             "BaseGuildEmojiManager": 0,
             "GuildBanManager": 0,
