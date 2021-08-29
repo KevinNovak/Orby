@@ -198,7 +198,7 @@
             "na": "N/A"
         },
         "links": {
-            "invite": "https://discord.com/",
+            "invite": "https://discord.com/oauth2/authorize?client_id=627939688656797696&scope=bot%20applications.commands&permissions=8",
             "inviteEmbed": "[Invite {{REF:bot.name}} to a Server!]({{REF:links.invite}})",
             "docs": "https://top.gg/",
             "docsEmbed": "[View Documentation]({{REF:links.docs}})",
