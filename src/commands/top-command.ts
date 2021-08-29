@@ -18,7 +18,7 @@ export class TopCommand implements Command {
                 name: 'type',
                 description: 'Type of leaderboard to display.',
                 required: false,
-                type: 3, // String
+                type: ApplicationCommandOptionType.String.valueOf(),
                 choices: [
                     {
                         name: 'overall',
