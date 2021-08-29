@@ -9,7 +9,7 @@ const MAX_MESSAGE_LENGTH = 2000;
 export class MembersCommand implements Command {
     public static data: ApplicationCommandData = {
         name: 'members',
-        description: 'Export server members.',
+        description: '[Dev Only] Export server members.',
         options: [
             {
                 name: 'server_id',
@@ -20,6 +20,7 @@ export class MembersCommand implements Command {
         ],
     };
     public name = MembersCommand.data.name;
+    public requireDev = true;
     public requireGuild = false;
     public requirePerms = [];
 

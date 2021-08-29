@@ -30,6 +30,7 @@ export class SetCommand implements Command {
         ],
     };
     public name = SetCommand.data.name;
+    public requireDev = false;
     public requireGuild = true;
     public requirePerms = [];
 

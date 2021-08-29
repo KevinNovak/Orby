@@ -7,7 +7,7 @@ import { Command } from './command';
 export class SayCommand implements Command {
     public static data: ApplicationCommandData = {
         name: 'say',
-        description: 'Make Orby send a message!',
+        description: '[Dev Only] Make Orby send a message!',
         options: [
             {
                 name: 'server_id',
@@ -30,6 +30,7 @@ export class SayCommand implements Command {
         ],
     };
     public name = SayCommand.data.name;
+    public requireDev = true;
     public requireGuild = false;
     public requirePerms = [];
 

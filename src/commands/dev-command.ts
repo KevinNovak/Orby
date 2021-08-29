@@ -12,9 +12,10 @@ let TsConfig = require('../../tsconfig.json');
 export class DevCommand implements Command {
     public static data: ApplicationCommandData = {
         name: 'dev',
-        description: 'Show developer info.',
+        description: '[Dev Only] Show developer info.',
     };
     public name = DevCommand.data.name;
+    public requireDev = true;
     public requireGuild = false;
     public requirePerms = [];
 

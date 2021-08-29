@@ -38,6 +38,7 @@ export class TopCommand implements Command {
         ],
     };
     public name = TopCommand.data.name;
+    public requireDev = false;
     public requireGuild = true;
     public requirePerms = [];
 
