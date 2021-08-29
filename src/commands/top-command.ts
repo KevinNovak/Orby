@@ -11,7 +11,7 @@ let Config = require('../../config/config.json');
 export class TopCommand implements Command {
     public static data: ApplicationCommandData = {
         name: 'top',
-        description: 'Show the top orb hoarders.',
+        description: 'Show the top orb savers.',
         options: [
             {
                 name: 'type',
