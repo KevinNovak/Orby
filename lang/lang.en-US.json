@@ -101,6 +101,14 @@
                 "description": "You don't have permission to run that command!",
                 "color": "{{REF:colors.warning}}"
             },
+            "oldCommandStyle": {
+                "description": [
+                    "Orby now uses **Slash Commands**!",
+                    "",
+                    "Try it by typing `/help`!"
+                ],
+                "color": "{{REF:colors.warning}}"
+            },
             "invalidOrbCount": {
                 "description": "Invalid orb count, try again!",
                 "color": "{{REF:colors.error}}"

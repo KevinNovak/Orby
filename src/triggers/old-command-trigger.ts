@@ -1,23 +1,23 @@
-import { Message, MessageEmbed } from 'discord.js';
+import { Message } from 'discord.js';
 import { Trigger } from '.';
 import { EventData } from '../models/internal-models';
+import { Lang } from '../services';
 import { MessageUtils } from '../utils';
+
+const OLD_COMMAND = '-orb';
 
 export class OldCommandTrigger implements Trigger {
     public requireGuild = false;
 
     public triggered(msg: Message): boolean {
-        return msg.content.split(' ')?.[0].toLowerCase() === '-orb';
+        return msg.content.split(' ')?.[0].toLowerCase() === OLD_COMMAND;
     }
 
     public async execute(msg: Message, data: EventData): Promise<void> {
         try {
             await MessageUtils.send(
                 msg.channel,
-                new MessageEmbed({
-                    description: 'Orby now uses **Slash Commands**!\n\nTry it by typing `/help`!',
-                    color: '#ffcc66',
-                })
+                Lang.getEmbed('validation.oldCommandStyle', Lang.Default)
             );
         } catch (error) {
             // Ignore
