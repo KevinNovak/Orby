@@ -23,8 +23,8 @@ export class MemberRepo {
         }
     }
 
-    public getActiveMembers(guild: Guild): Collection<string, GuildMember> {
-        let members = guild.members.cache;
+    public async getActiveMembers(guild: Guild): Promise<Collection<string, GuildMember>> {
+        let members = await guild.members.fetch();
         let savedMembers = this.guildMembers[guild.id].value();
         let activeMembers = members.filter(
             member =>

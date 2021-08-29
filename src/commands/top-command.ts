@@ -50,7 +50,7 @@ export class TopCommand implements Command {
 
         let members: Collection<string, GuildMember>;
         try {
-            members = this.memberRepo.getActiveMembers(intr.guild);
+            members = await this.memberRepo.getActiveMembers(intr.guild);
         } catch (error) {
             return;
         }
