@@ -17,22 +17,20 @@ async function start(): Promise<void> {
         SayCommand.data,
         SetCommand.data,
         TopCommand.data,
-    ];
+    ].sort((a, b) => (a.name > b.name ? 1 : -1));
 
     let cmdNames = cmdDatas.map(cmdInfo => cmdInfo.name);
 
     Logger.info(
         Logs.info.commandsRegistering.replaceAll(
             '{COMMAND_NAMES}',
-            cmdNames
-                .map(cmdName => `'${cmdName}'`)
-                .sort()
-                .join(', ')
+            cmdNames.map(cmdName => `'${cmdName}'`).join(', ')
         )
     );
 
     try {
         let rest = new REST({ version: '9' }).setToken(Config.client.token);
+        await rest.put(Routes.applicationCommands(Config.client.id), { body: [] });
         await rest.put(Routes.applicationCommands(Config.client.id), { body: cmdDatas });
     } catch (error) {
         Logger.error(Logs.error.commandsRegistering, error);
