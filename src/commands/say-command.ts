@@ -7,8 +7,8 @@ import { Command } from './command';
 
 export class SayCommand implements Command {
     public static data: ApplicationCommandData = {
-        name: '-say',
-        description: '[Dev Only] Send a message as Orby.',
+        name: 'say',
+        description: 'Send a message as Orby.',
         options: [
             {
                 name: 'server_id',
