@@ -3,7 +3,7 @@
     "client": {
         "id": "<DISCORD_BOT_ID>",
         "token": "<DISCORD_BOT_TOKEN>",
-        "intents": ["GUILDS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
+        "intents": ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
         "partials": [],
         "caches": {
             "BaseGuildEmojiManager": 0,
