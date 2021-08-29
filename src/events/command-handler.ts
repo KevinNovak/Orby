@@ -12,7 +12,7 @@ import { EventHandler } from '.';
 import { Command } from '../commands';
 import { EventData } from '../models/internal-models';
 import { Lang, Logger } from '../services';
-import { MessageUtils } from '../utils';
+import { MessageUtils, PermissionUtils } from '../utils';
 
 let Config = require('../../config/config.json');
 let Debug = require('../../config/debug.json');
@@ -41,16 +41,16 @@ export class CommandHandler implements EventHandler {
         let data = new EventData();
 
         // Check if I have permission to send a message
-        // if (!PermissionUtils.canSendEmbed(intr.channel)) {
-        //     // No permission to send message
-        //     if (PermissionUtils.canSend(intr.channel)) {
-        //         let message = Lang.getRef('messages.missingEmbedPerms', data.lang());
-        //         await MessageUtils.sendIntr(intr, message);
-        //     }
+        if (!PermissionUtils.canSendEmbed(intr.channel)) {
+            // No permission to send message
+            if (PermissionUtils.canSend(intr.channel)) {
+                let message = Lang.getRef('messages.missingEmbedPerms', data.lang());
+                await MessageUtils.sendIntr(intr, message);
+            }
 
-        //     // TODO: This could be a problem, we need to send a response back but have no permission
-        //     return;
-        // }
+            // TODO: This could be a problem, we need to send a response back but have no permission
+            return;
+        }
 
         // Try to find the command the user wants
         let command = this.commands.find(command => command.name === intr.commandName);
