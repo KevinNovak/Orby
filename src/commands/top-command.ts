@@ -1,10 +1,4 @@
-import {
-    ApplicationCommandData,
-    Collection,
-    CommandInteraction,
-    GuildMember,
-    MessageEmbed,
-} from 'discord.js';
+import { ApplicationCommandData, Collection, CommandInteraction, GuildMember } from 'discord.js';
 
 import { EventData, OrbData } from '../models/internal-models';
 import { MemberRepo } from '../repos';
