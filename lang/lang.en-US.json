@@ -186,6 +186,10 @@
             "commands": "Commands",
             "links": "Links"
         },
+        "orbType": {
+            "overall": "Overall",
+            "inbox": "Inbox"
+        },
         "other": {
             "na": "N/A"
         },

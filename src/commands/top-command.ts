@@ -57,9 +57,9 @@ export class TopCommand implements Command {
             .filter(member => !member.user.bot)
             .map(member => member.displayName);
 
-        let orbData = [];
+        let orbDatas = [];
         if (topType === 'INBOX') {
-            orbData = displayNames
+            orbDatas = displayNames
                 .filter(RegexUtils.containsOrbs)
                 .map(displayName => ({
                     displayName,
@@ -68,7 +68,7 @@ export class TopCommand implements Command {
                 .filter(orbData => orbData.orbCount > 0)
                 .sort(this.compareOrbCounts);
         } else {
-            orbData = displayNames
+            orbDatas = displayNames
                 .filter(RegexUtils.containsOrbs)
                 .map(displayName => ({
                     displayName,
@@ -79,13 +79,13 @@ export class TopCommand implements Command {
         }
 
         let lines = [];
-        for (let [index, data] of orbData.entries()) {
+        for (let [index, orbData] of orbDatas.entries()) {
             let rank = index + 1;
             lines.push(
                 Lang.getRef('lists.topItem', data.lang(), {
                     MEMBER_RANK: rank.toLocaleString(),
-                    ORB_COUNT: data.orbCount.toLocaleString(),
-                    MEMBER_NAME: data.displayName,
+                    ORB_COUNT: orbData.orbCount.toLocaleString(),
+                    MEMBER_NAME: orbData.displayName,
                 })
             );
         }
@@ -100,7 +100,10 @@ export class TopCommand implements Command {
         await MessageUtils.sendIntr(
             intr,
             Lang.getEmbed('displays.top', data.lang(), {
-                ORB_TYPE: topType === 'INBOX' ? 'Inbox' : 'Overall',
+                ORB_TYPE:
+                    topType === 'INBOX'
+                        ? Lang.getRef('orbType.inbox', data.lang())
+                        : Lang.getRef('orbType.overall', data.lang()),
                 TOP_LIST: topList,
                 CURRENT_PAGE: page.toLocaleString(),
                 MAX_PAGE: maxPage.toLocaleString(),
