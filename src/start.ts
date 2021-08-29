@@ -2,6 +2,7 @@ import { Options } from 'discord.js';
 
 import { Bot } from './bot';
 import { DevCommand, HelpCommand, SetCommand, TopCommand } from './commands';
+import { SayCommand } from './commands/say-command';
 import {
     CommandHandler,
     GuildJoinHandler,
@@ -36,6 +37,7 @@ async function start(): Promise<void> {
     // Commands
     let devCommand = new DevCommand();
     let helpCommand = new HelpCommand();
+    let sayCommand = new SayCommand();
     let setCommand = new SetCommand(memberRepo);
     let topCommand = new TopCommand(memberRepo);
 
@@ -45,7 +47,13 @@ async function start(): Promise<void> {
     // Event handlers
     let guildJoinHandler = new GuildJoinHandler(memberRepo);
     let guildLeaveHandler = new GuildLeaveHandler();
-    let commandHandler = new CommandHandler([devCommand, helpCommand, setCommand, topCommand]);
+    let commandHandler = new CommandHandler([
+        devCommand,
+        helpCommand,
+        sayCommand,
+        setCommand,
+        topCommand,
+    ]);
     let triggerHandler = new TriggerHandler([oldCommandTrigger]);
     let messageHandler = new MessageHandler(triggerHandler);
     let reactionHandler = new ReactionHandler([]);

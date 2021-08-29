@@ -3,6 +3,7 @@ import { Routes } from 'discord-api-types/v9';
 import { ApplicationCommandData } from 'discord.js';
 
 import { DevCommand, HelpCommand, SetCommand, TopCommand } from './commands';
+import { SayCommand } from './commands/say-command';
 import { Logger } from './services';
 
 let Config = require('../config/config.json');
@@ -12,6 +13,7 @@ async function start(): Promise<void> {
     let cmdDatas: ApplicationCommandData[] = [
         DevCommand.data,
         HelpCommand.data,
+        SayCommand.data,
         SetCommand.data,
         TopCommand.data,
     ];
