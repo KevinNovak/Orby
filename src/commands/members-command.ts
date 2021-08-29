@@ -9,11 +9,11 @@ const MAX_MESSAGE_LENGTH = 2000;
 export class MembersCommand implements Command {
     public static data: ApplicationCommandData = {
         name: 'members',
-        description: '[Dev Only] Export server members.',
+        description: '[Dev Only] Export server members and their roles.',
         options: [
             {
                 name: 'server_id',
-                description: 'Server ID',
+                description: 'ID of the server.',
                 required: true,
                 type: 3, // String
             },

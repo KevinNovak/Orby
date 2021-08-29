@@ -7,23 +7,23 @@ import { Command } from './command';
 export class SayCommand implements Command {
     public static data: ApplicationCommandData = {
         name: 'say',
-        description: '[Dev Only] Make Orby send a message!',
+        description: '[Dev Only] Send a message as Orby.',
         options: [
             {
                 name: 'server_id',
-                description: 'Server ID',
+                description: 'ID of the server.',
                 required: true,
                 type: 3, // String
             },
             {
                 name: 'channel_id',
-                description: 'Channel ID',
+                description: 'ID of the channel.',
                 required: true,
                 type: 3, // String
             },
             {
                 name: 'message',
-                description: 'Message',
+                description: 'Message to send.',
                 required: true,
                 type: 3, // String
             },

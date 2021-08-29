@@ -11,11 +11,11 @@ let Config = require('../../config/config.json');
 export class TopCommand implements Command {
     public static data: ApplicationCommandData = {
         name: 'top',
-        description: 'Show the top orb savers.',
+        description: 'Show the top orb hoarders.',
         options: [
             {
                 name: 'type',
-                description: 'Type of orbs.',
+                description: 'Type of leaderboard to display.',
                 required: false,
                 type: 3, // String
                 choices: [
@@ -31,7 +31,7 @@ export class TopCommand implements Command {
             },
             {
                 name: 'page',
-                description: 'Page number.',
+                description: 'Page number to display.',
                 required: false,
                 type: 4, // Integer
             },
