@@ -64,7 +64,7 @@ export class CommandHandler implements EventHandler {
             return;
         }
 
-        if (command.requireDev && !Config.experience.developers.includes(intr.user.id)) {
+        if (command.requireDev && !Config.developers.includes(intr.user.id)) {
             await MessageUtils.sendIntr(
                 intr,
                 Lang.getEmbed('validation.devOnlyCommand', data.lang())
