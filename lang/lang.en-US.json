@@ -179,7 +179,9 @@
             "help": "help"
         },
         "lists": {
-            "languageItem": "**{{LANGUAGE_NAME}}** (`{{LANGUAGE_KEYWORD}}`)"
+            "languageItem": "**{{LANGUAGE_NAME}}** (`{{LANGUAGE_KEYWORD}}`)",
+            "topItem": "**{{MEMBER_RANK}}**. `{{ORB_COUNT}}` - {{MEMBER_NAME}}",
+            "topNone": "No members!"
         },
         "fields": {
             "commands": "Commands",

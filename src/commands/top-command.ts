@@ -8,6 +8,7 @@ import {
 
 import { EventData, OrbData } from '../models/internal-models';
 import { MemberRepo } from '../repos';
+import { Lang } from '../services';
 import { ArrayUtils, MathUtils, MessageUtils, RegexUtils } from '../utils';
 import { Command } from './command';
 
@@ -87,10 +88,11 @@ export class TopCommand implements Command {
         for (let [index, data] of orbData.entries()) {
             let rank = index + 1;
             lines.push(
-                '**{MEMBER_RANK}**. `{ORB_COUNT}` - {MEMBER_NAME}'
-                    .replace('{MEMBER_RANK}', rank.toLocaleString())
-                    .replace('{ORB_COUNT}', data.orbCount.toLocaleString())
-                    .replace('{MEMBER_NAME}', data.displayName)
+                Lang.getRef('lists.topItem', Lang.Default, {
+                    MEMBER_RANK: rank.toLocaleString(),
+                    ORB_COUNT: data.orbCount.toLocaleString(),
+                    MEMBER_NAME: data.displayName,
+                })
             );
         }
 
@@ -99,7 +101,7 @@ export class TopCommand implements Command {
         let page = MathUtils.clamp(intr.options.getInteger('page') || 1, 1, maxPage);
 
         let pageLines = ArrayUtils.paginate(lines, pageSize, page);
-        let description = pageLines.join('\n') || 'No members!';
+        let description = pageLines.join('\n') || Lang.getRef('lists.topNone', Lang.Default);
         let footer = `Page ${page.toLocaleString()} of ${maxPage.toLocaleString()}`;
 
         const embed = new MessageEmbed()
