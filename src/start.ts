@@ -1,7 +1,7 @@
 import { Options } from 'discord.js';
 
 import { Bot } from './bot';
-import { DevCommand, HelpCommand, SetCommand, TopCommand } from './commands';
+import { DevCommand, HelpCommand, MembersCommand, SetCommand, TopCommand } from './commands';
 import { SayCommand } from './commands/say-command';
 import {
     CommandHandler,
@@ -37,6 +37,7 @@ async function start(): Promise<void> {
     // Commands
     let devCommand = new DevCommand();
     let helpCommand = new HelpCommand();
+    let membersCommand = new MembersCommand();
     let sayCommand = new SayCommand();
     let setCommand = new SetCommand(memberRepo);
     let topCommand = new TopCommand(memberRepo);
@@ -50,6 +51,7 @@ async function start(): Promise<void> {
     let commandHandler = new CommandHandler([
         devCommand,
         helpCommand,
+        membersCommand,
         sayCommand,
         setCommand,
         topCommand,
