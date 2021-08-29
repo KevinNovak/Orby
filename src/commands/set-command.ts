@@ -2,6 +2,7 @@ import { ApplicationCommandData, CommandInteraction, GuildMember } from 'discord
 
 import { EventData } from '../models/internal-models';
 import { MemberRepo } from '../repos';
+import { Lang } from '../services';
 import { MessageUtils, RegexUtils } from '../utils';
 import { Command } from './command';
 
@@ -39,7 +40,10 @@ export class SetCommand implements Command {
 
         let claimedOrbs = intr.options.getInteger('claimed');
         if (claimedOrbs < 0 || claimedOrbs > Config.experience.maxOrbs) {
-            await MessageUtils.sendIntr(intr, 'Please provide a valid orb count.');
+            await MessageUtils.sendIntr(
+                intr,
+                Lang.getEmbed('validation.invalidOrbCount', Lang.Default)
+            );
             return;
         }
 
@@ -47,25 +51,34 @@ export class SetCommand implements Command {
         if (intr.options.getInteger('inbox')) {
             inboxOrbs = intr.options.getInteger('inbox');
             if (inboxOrbs < 0 || inboxOrbs > Config.experience.maxOrbs) {
-                await MessageUtils.sendIntr(intr, 'Please provide a valid orb count.');
+                await MessageUtils.sendIntr(
+                    intr,
+                    Lang.getEmbed('validation.invalidOrbCount', Lang.Default)
+                );
                 return;
             }
         }
 
         if (!intr.guild.me.permissions.has('MANAGE_NICKNAMES')) {
-            await MessageUtils.sendIntr(intr, `I don't have permission to change your nickname!`);
+            await MessageUtils.sendIntr(
+                intr,
+                Lang.getEmbed('validation.nicknameNoPermission', Lang.Default)
+            );
             return;
         }
 
         if (member.user.id === intr.guild.ownerId) {
-            await MessageUtils.sendIntr(intr, 'The owners nickname cannot be updated.');
+            await MessageUtils.sendIntr(
+                intr,
+                Lang.getEmbed('validation.nicknameNoOwner', Lang.Default)
+            );
             return;
         }
 
         if (intr.guild.me.roles.highest.position <= member.roles.highest.position) {
             await MessageUtils.sendIntr(
                 intr,
-                `I can't change your nickname because your role is higher than me!`
+                Lang.getEmbed('validation.nicknameHigherRole', Lang.Default)
             );
             return;
         }
@@ -94,7 +107,7 @@ export class SetCommand implements Command {
         if (displayName.length > MAX_NICKNAME_LENGTH) {
             await MessageUtils.sendIntr(
                 intr,
-                'Your new nickname would be too long. Please shorten your nickname.'
+                Lang.getEmbed('validation.nicknameTooLong', Lang.Default)
             );
             return;
         }
@@ -105,17 +118,17 @@ export class SetCommand implements Command {
         if (inboxOrbs > 0) {
             await MessageUtils.sendIntr(
                 intr,
-                'Updated your orb count to {CLAIMED_ORBS} orbs and {INBOX_ORBS} in your inbox!'
-                    .replace('{CLAIMED_ORBS}', claimedOrbsString)
-                    .replace('{INBOX_ORBS}', inboxOrbsString)
+                Lang.getEmbed('results.orbCountUpdatedBoth', Lang.Default, {
+                    CLAIMED_ORBS: claimedOrbsString,
+                    INBOX_ORBS: inboxOrbsString,
+                })
             );
         } else {
             await MessageUtils.sendIntr(
                 intr,
-                'Updated your orb count to {CLAIMED_ORBS} orbs!'.replace(
-                    '{CLAIMED_ORBS}',
-                    claimedOrbsString
-                )
+                Lang.getEmbed('results.orbCountUpdatedClaimed', Lang.Default, {
+                    CLAIMED_ORBS: claimedOrbsString,
+                })
             );
         }
     }

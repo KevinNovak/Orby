@@ -82,6 +82,16 @@
                 ]
             }
         },
+        "results": {
+            "orbCountUpdatedClaimed": {
+                "description": "Updated your orb count to {{CLAIMED_ORBS}} orbs!",
+                "color": "{{REF:colors.success}}"
+            },
+            "orbCountUpdatedBoth": {
+                "description": "Updated your orb count to {{CLAIMED_ORBS}} orbs and {{INBOX_ORBS}} in your inbox!",
+                "color": "{{REF:colors.success}}"
+            }
+        },
         "validation": {
             "serverOnlyCommand": {
                 "description": "This command can only be used in a server.",
@@ -89,6 +99,26 @@
             },
             "permissionRequired": {
                 "description": "You don't have permission to run that command!",
+                "color": "{{REF:colors.warning}}"
+            },
+            "invalidOrbCount": {
+                "description": "Invalid orb count, try again!",
+                "color": "{{REF:colors.error}}"
+            },
+            "nicknameNoPermission": {
+                "description": "I don't have permission to change nicknames!",
+                "color": "{{REF:colors.error}}"
+            },
+            "nicknameNoOwner": {
+                "description": "The owners nickname cannot be updated.",
+                "color": "{{REF:colors.warning}}"
+            },
+            "nicknameHigherRole": {
+                "description": "I can't change your nickname because your role is higher than me!",
+                "color": "{{REF:colors.error}}"
+            },
+            "nicknameTooLong": {
+                "description": "Your new nickname would be too long. Please shorten your nickname.",
                 "color": "{{REF:colors.warning}}"
             }
         },
