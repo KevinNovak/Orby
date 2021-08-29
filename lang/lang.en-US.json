@@ -14,11 +14,7 @@
                     },
                     {
                         "name": "{{REF:fields.links}}",
-                        "value": [
-                            "{{REF:links.docsEmbed}}",
-                            "{{REF:links.supportEmbed}}",
-                            "{{REF:links.inviteEmbed}}"
-                        ]
+                        "value": ["{{REF:links.inviteEmbed}}"]
                     }
                 ]
             },
@@ -29,17 +25,13 @@
                     {
                         "name": "{{REF:fields.commands}}",
                         "value": [
-                            "**/{{REF:commands.test}}** - Run the test command.",
-                            "**/{{REF:commands.info}}** - More information about {{REF:bot.name}}."
+                            "**/{{REF:commands.set}}** - Update your orb count.",
+                            "**/{{REF:commands.top}}** - Show the top orb savers."
                         ]
                     },
                     {
                         "name": "{{REF:fields.links}}",
-                        "value": [
-                            "{{REF:links.docsEmbed}}",
-                            "{{REF:links.supportEmbed}}",
-                            "{{REF:links.inviteEmbed}}"
-                        ]
+                        "value": ["{{REF:links.inviteEmbed}}"]
                     }
                 ]
             },
@@ -172,7 +164,7 @@
         },
         "bot": {
             "name": "Orby",
-            "description": "Keep track of your FEH orbs!"
+            "description": "Hi I'm Orby, a Fire Emblem Heroes orb tracking bot!"
         },
         "colors": {
             "success": "00ff83",
@@ -181,7 +173,9 @@
         },
         "commands": {
             "dev": "dev",
-            "help": "help"
+            "help": "help",
+            "set": "set",
+            "top": "top"
         },
         "lists": {
             "languageItem": "**{{LANGUAGE_NAME}}** (`{{LANGUAGE_KEYWORD}}`)",

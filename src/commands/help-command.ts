@@ -1,10 +1,9 @@
-import { ApplicationCommandData, CommandInteraction, MessageEmbed } from 'discord.js';
+import { ApplicationCommandData, CommandInteraction } from 'discord.js';
 
 import { EventData } from '../models/internal-models';
+import { Lang } from '../services';
 import { MessageUtils } from '../utils';
 import { Command } from './command';
-
-let Config = require('../../config/config.json');
 
 export class HelpCommand implements Command {
     public static data: ApplicationCommandData = {
@@ -16,18 +15,6 @@ export class HelpCommand implements Command {
     public requirePerms = [];
 
     public async execute(intr: CommandInteraction, data: EventData): Promise<void> {
-        await MessageUtils.sendIntr(
-            intr,
-            new MessageEmbed({
-                title: 'Orby - Help Menu',
-                description: [
-                    `Hi I'm Orby! Here are the things I help you with.`,
-                    '',
-                    '**/help** - Show this help menu.',
-                    '**/set** - Update your orb count.',
-                    '**/top** - Show the top orb savers.',
-                ].join('\n'),
-            }).setColor(Config.colors.default)
-        );
+        await MessageUtils.sendIntr(intr, Lang.getEmbed('displays.help', Lang.Default));
     }
 }
