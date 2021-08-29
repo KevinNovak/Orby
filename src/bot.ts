@@ -85,16 +85,6 @@ export class Bot {
             }
         }
 
-        // Set presence
-        this.client.user.setPresence({
-            activities: [
-                {
-                    type: 'PLAYING',
-                    name: 'FEH. Type "/help".',
-                },
-            ],
-        });
-
         this.memberRepo.connectGuilds([...this.client.guilds.cache.keys()]);
 
         if (!Debug.dummyMode.enabled) {

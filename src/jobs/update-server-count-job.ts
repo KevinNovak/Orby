@@ -24,8 +24,8 @@ export class UpdateServerCountJob implements Job {
     public async run(): Promise<void> {
         let serverCount = await ShardUtils.serverCount(this.shardManager);
 
-        let type: ActivityType = 'STREAMING';
-        let name = `to ${serverCount.toLocaleString()} servers`;
+        let type: ActivityType = 'PLAYING';
+        let name = `FEH. Type "/help".`;
         let url = Lang.getRef('links.stream', Lang.Default);
 
         await this.shardManager.broadcastEval(
