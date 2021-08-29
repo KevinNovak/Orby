@@ -1,3 +1,4 @@
+import { ApplicationCommandOptionType } from 'discord-api-types';
 import { ApplicationCommandData, CommandInteraction, TextChannel } from 'discord.js';
 
 import { EventData } from '../models/internal-models';
@@ -13,19 +14,19 @@ export class SayCommand implements Command {
                 name: 'server_id',
                 description: 'ID of the server.',
                 required: true,
-                type: 3, // String
+                type: ApplicationCommandOptionType.String.valueOf(),
             },
             {
                 name: 'channel_id',
                 description: 'ID of the channel.',
                 required: true,
-                type: 3, // String
+                type: ApplicationCommandOptionType.String.valueOf(),
             },
             {
                 name: 'message',
                 description: 'Message to send.',
                 required: true,
-                type: 3, // String
+                type: ApplicationCommandOptionType.String.valueOf(),
             },
         ],
     };

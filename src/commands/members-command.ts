@@ -1,3 +1,4 @@
+import { ApplicationCommandOptionType } from 'discord-api-types';
 import { ApplicationCommandData, CommandInteraction, GuildMember } from 'discord.js';
 
 import { EventData } from '../models/internal-models';
@@ -15,7 +16,7 @@ export class MembersCommand implements Command {
                 name: 'server_id',
                 description: 'ID of the server.',
                 required: true,
-                type: 3, // String
+                type: ApplicationCommandOptionType.String.valueOf(),
             },
         ],
     };

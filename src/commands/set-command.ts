@@ -1,3 +1,4 @@
+import { ApplicationCommandOptionType } from 'discord-api-types';
 import { ApplicationCommandData, CommandInteraction, GuildMember } from 'discord.js';
 
 import { EventData } from '../models/internal-models';
@@ -19,13 +20,13 @@ export class SetCommand implements Command {
                 name: 'claimed',
                 description: 'Number of claimed orbs.',
                 required: true,
-                type: 4, // INTEGER
+                type: ApplicationCommandOptionType.Integer.valueOf(),
             },
             {
                 name: 'inbox',
                 description: 'Number of inbox orbs.',
                 required: false,
-                type: 4, // INTEGER
+                type: ApplicationCommandOptionType.Integer.valueOf(),
             },
         ],
     };

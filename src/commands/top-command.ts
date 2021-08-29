@@ -1,3 +1,4 @@
+import { ApplicationCommandOptionType } from 'discord-api-types';
 import { ApplicationCommandData, Collection, CommandInteraction, GuildMember } from 'discord.js';
 
 import { EventData, OrbData } from '../models/internal-models';
@@ -33,7 +34,7 @@ export class TopCommand implements Command {
                 name: 'page',
                 description: 'Page number to display.',
                 required: false,
-                type: 4, // Integer
+                type: ApplicationCommandOptionType.Integer.valueOf(),
             },
         ],
     };
