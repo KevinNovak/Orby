@@ -42,7 +42,7 @@ export class SetCommand implements Command {
         if (claimedOrbs < 0 || claimedOrbs > Config.experience.maxOrbs) {
             await MessageUtils.sendIntr(
                 intr,
-                Lang.getEmbed('validation.invalidOrbCount', Lang.Default)
+                Lang.getEmbed('validation.invalidOrbCount', data.lang())
             );
             return;
         }
@@ -53,7 +53,7 @@ export class SetCommand implements Command {
             if (inboxOrbs < 0 || inboxOrbs > Config.experience.maxOrbs) {
                 await MessageUtils.sendIntr(
                     intr,
-                    Lang.getEmbed('validation.invalidOrbCount', Lang.Default)
+                    Lang.getEmbed('validation.invalidOrbCount', data.lang())
                 );
                 return;
             }
@@ -62,7 +62,7 @@ export class SetCommand implements Command {
         if (!intr.guild.me.permissions.has('MANAGE_NICKNAMES')) {
             await MessageUtils.sendIntr(
                 intr,
-                Lang.getEmbed('validation.nicknameNoPermission', Lang.Default)
+                Lang.getEmbed('validation.nicknameNoPermission', data.lang())
             );
             return;
         }
@@ -70,7 +70,7 @@ export class SetCommand implements Command {
         if (member.user.id === intr.guild.ownerId) {
             await MessageUtils.sendIntr(
                 intr,
-                Lang.getEmbed('validation.nicknameNoOwner', Lang.Default)
+                Lang.getEmbed('validation.nicknameNoOwner', data.lang())
             );
             return;
         }
@@ -78,7 +78,7 @@ export class SetCommand implements Command {
         if (intr.guild.me.roles.highest.position <= member.roles.highest.position) {
             await MessageUtils.sendIntr(
                 intr,
-                Lang.getEmbed('validation.nicknameHigherRole', Lang.Default)
+                Lang.getEmbed('validation.nicknameHigherRole', data.lang())
             );
             return;
         }
@@ -107,7 +107,7 @@ export class SetCommand implements Command {
         if (displayName.length > MAX_NICKNAME_LENGTH) {
             await MessageUtils.sendIntr(
                 intr,
-                Lang.getEmbed('validation.nicknameTooLong', Lang.Default)
+                Lang.getEmbed('validation.nicknameTooLong', data.lang())
             );
             return;
         }
@@ -118,7 +118,7 @@ export class SetCommand implements Command {
         if (inboxOrbs > 0) {
             await MessageUtils.sendIntr(
                 intr,
-                Lang.getEmbed('results.orbCountUpdatedBoth', Lang.Default, {
+                Lang.getEmbed('results.orbCountUpdatedBoth', data.lang(), {
                     CLAIMED_ORBS: claimedOrbsString,
                     INBOX_ORBS: inboxOrbsString,
                 })
@@ -126,7 +126,7 @@ export class SetCommand implements Command {
         } else {
             await MessageUtils.sendIntr(
                 intr,
-                Lang.getEmbed('results.orbCountUpdatedClaimed', Lang.Default, {
+                Lang.getEmbed('results.orbCountUpdatedClaimed', data.lang(), {
                     CLAIMED_ORBS: claimedOrbsString,
                 })
             );

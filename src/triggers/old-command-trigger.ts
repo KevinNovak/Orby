@@ -17,7 +17,7 @@ export class OldCommandTrigger implements Trigger {
         try {
             await MessageUtils.send(
                 msg.channel,
-                Lang.getEmbed('validation.oldCommandStyle', Lang.Default)
+                Lang.getEmbed('validation.oldCommandStyle', data.lang())
             );
         } catch (error) {
             // Ignore

@@ -88,7 +88,7 @@ export class TopCommand implements Command {
         for (let [index, data] of orbData.entries()) {
             let rank = index + 1;
             lines.push(
-                Lang.getRef('lists.topItem', Lang.Default, {
+                Lang.getRef('lists.topItem', data.lang(), {
                     MEMBER_RANK: rank.toLocaleString(),
                     ORB_COUNT: data.orbCount.toLocaleString(),
                     MEMBER_NAME: data.displayName,
@@ -101,11 +101,11 @@ export class TopCommand implements Command {
         let page = MathUtils.clamp(intr.options.getInteger('page') || 1, 1, maxPage);
 
         let pageLines = ArrayUtils.paginate(lines, pageSize, page);
-        let topList = pageLines.join('\n') || Lang.getRef('lists.topNone', Lang.Default);
+        let topList = pageLines.join('\n') || Lang.getRef('lists.topNone', data.lang());
 
         await MessageUtils.sendIntr(
             intr,
-            Lang.getEmbed('displays.top', Lang.Default, {
+            Lang.getEmbed('displays.top', data.lang(), {
                 ORB_TYPE: topType === 'INBOX' ? 'Inbox' : 'Overall',
                 TOP_LIST: topList,
                 CURRENT_PAGE: page.toLocaleString(),
