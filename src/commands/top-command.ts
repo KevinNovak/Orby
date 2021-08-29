@@ -101,16 +101,17 @@ export class TopCommand implements Command {
         let page = MathUtils.clamp(intr.options.getInteger('page') || 1, 1, maxPage);
 
         let pageLines = ArrayUtils.paginate(lines, pageSize, page);
-        let description = pageLines.join('\n') || Lang.getRef('lists.topNone', Lang.Default);
-        let footer = `Page ${page.toLocaleString()} of ${maxPage.toLocaleString()}`;
+        let topList = pageLines.join('\n') || Lang.getRef('lists.topNone', Lang.Default);
 
-        const embed = new MessageEmbed()
-            .setColor(Config.colors.default)
-            .setTitle(topType === 'INBOX' ? 'Top Orb Savers - Inbox' : 'Top Orb Savers - Overall')
-            .setDescription(description)
-            .setFooter(footer);
-
-        await MessageUtils.sendIntr(intr, embed);
+        await MessageUtils.sendIntr(
+            intr,
+            Lang.getEmbed('displays.top', Lang.Default, {
+                ORB_TYPE: topType === 'INBOX' ? 'Inbox' : 'Overall',
+                TOP_LIST: topList,
+                CURRENT_PAGE: page.toLocaleString(),
+                MAX_PAGE: maxPage.toLocaleString(),
+            })
+        );
     }
 
     private compareOrbCounts(a: OrbData, b: OrbData): number {

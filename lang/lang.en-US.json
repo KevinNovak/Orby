@@ -80,6 +80,11 @@
                         ]
                     }
                 ]
+            },
+            "top": {
+                "title": "Top Orb Savers - {{ORB_TYPE}}",
+                "description": "{{TOP_LIST}}",
+                "footer": { "text": "Page {{CURRENT_PAGE}} of {{MAX_PAGE}}" }
             }
         },
         "results": {
