@@ -59,26 +59,17 @@ export class TopCommand implements Command {
             .filter(member => !member.user.bot)
             .map(member => member.displayName);
 
-        let orbDatas = [];
-        if (topType === 'INBOX') {
-            orbDatas = displayNames
-                .filter(RegexUtils.containsOrbs)
-                .map(displayName => ({
-                    displayName,
-                    orbCount: RegexUtils.extractInboxOrbs(displayName) || 0,
-                }))
-                .filter(orbData => orbData.orbCount > 0)
-                .sort(this.compareOrbCounts);
-        } else {
-            orbDatas = displayNames
-                .filter(RegexUtils.containsOrbs)
-                .map(displayName => ({
-                    displayName,
-                    orbCount: RegexUtils.extractTotalOrbs(displayName) || 0,
-                }))
-                .filter(orbData => orbData.orbCount > 0)
-                .sort(this.compareOrbCounts);
-        }
+        let orbDatas = displayNames
+            .filter(RegexUtils.containsOrbs)
+            .map(displayName => ({
+                displayName,
+                orbCount:
+                    topType === 'INBOX'
+                        ? RegexUtils.extractInboxOrbs(displayName)
+                        : RegexUtils.extractTotalOrbs(displayName) || 0,
+            }))
+            .filter(orbData => orbData.orbCount > 0)
+            .sort(this.compareOrbCounts);
 
         let lines = [];
         for (let [index, orbData] of orbDatas.entries()) {
